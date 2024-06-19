@@ -1,0 +1,8 @@
+[submodule "runic"]
+    path = shared/runic
+    url = https://github.com/Samudevv/runic.git
+
+[submodule "glew"]
+    path = shared/glew
+    url = https://github.com/nigels-com/glew.git
+    branch = glew-2.2.0
