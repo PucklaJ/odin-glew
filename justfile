@@ -15,7 +15,7 @@ auto:
 
 [linux]
 build: auto
-    make -C shared/glew -j {{ num_cpus() }} glew.lib
+    SYSTEM=linux-egl make -C shared/glew -j {{ num_cpus() }} glew.lib
 
 [windows]
 build:
@@ -24,7 +24,7 @@ build:
 [linux]
 install: build
     @mkdir -p {{ BUILD_DIR }}
-    GLEW_DEST={{ BUILD_DIR }} make -C shared/glew install
+    SYSTEM=linux-egl GLEW_DEST={{ BUILD_DIR }} make -C shared/glew install
     @rm -rf lib/linux
     @mkdir -p lib/linux
     ln -s {{ BUILD_DIR / 'lib64' / 'libGLEW.a' }}  lib/linux/libGLEW.a
