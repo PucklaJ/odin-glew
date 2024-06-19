@@ -1,3 +1,5 @@
+set windows-shell := ["C:\\Windows\\System32\\cmd.exe", "/k"]
+
 BUILD_DIR := justfile_directory() / 'build'
 
 default: to
@@ -15,10 +17,17 @@ auto:
 build: auto
     make -C shared/glew -j {{ num_cpus() }} glew.lib
 
+[windows]
+build:
+    msbuild /p:PlatformToolset=v143 /p:Platform=x64 /p:Configuration=Release shared\glew\build\vc15\glew.sln
+
 [linux]
 install: build
     @mkdir -p {{ BUILD_DIR }}
     GLEW_DEST={{ BUILD_DIR }} make -C shared/glew install
+
+[windows]
+install:
 
 runic:
     just -f shared/runic/justfile
