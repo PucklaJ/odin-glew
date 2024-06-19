@@ -1,0 +1,24 @@
+{
+  "version": 0,
+  "from": "build/runestone/glew.linux",
+  "to": {
+    "language": "odin",
+    "package": "gl",
+    "static_switch": "GLEW_STATIC",
+    "trim_prefix": {
+      "constants": [
+        "GL_",
+        "GL"
+      ],
+      "functions": [
+        "gl"
+      ],
+      "variables": [
+        "gl",
+        "GL"
+      ]
+    },
+    "ignore_arch": true,
+    "out": "glew.odin"
+  }
+}
