@@ -36684,7 +36684,7 @@ when (ODIN_OS == .Linux) && (ODIN_ARCH == .amd64) || (ODIN_OS == .Linux) && (ODI
 GLulong :: u64
 
 when #config(GLEW_STATIC, false) {
-    foreign import gl_runic "build/lib64/libGLEW.a"
+    foreign import gl_runic "lib/linux/libGLEW.a"
 } else {
     foreign import gl_runic "system:GLEW"
 }

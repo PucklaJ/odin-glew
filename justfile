@@ -25,6 +25,10 @@ build:
 install: build
     @mkdir -p {{ BUILD_DIR }}
     GLEW_DEST={{ BUILD_DIR }} make -C shared/glew install
+    @rm -rf lib/linux
+    @mkdir -p lib/linux
+    ln -s {{ BUILD_DIR / 'lib64' / 'libGLEW.a' }}  lib/linux/libGLEW.a
+    ln -s {{ BUILD_DIR / 'lib64' / 'libGLEW.so' }} lib/linux/libGLEW.so
 
 [windows]
 install:
@@ -44,3 +48,5 @@ to: from
 [unix]
 clean:
     rm -rf {{ BUILD_DIR }}
+    make -C shared/glew clean
+    make -C shared/glew/auto clean
