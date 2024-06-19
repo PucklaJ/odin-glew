@@ -33,8 +33,10 @@ runic:
     just -f shared/runic/justfile
 
 from: runic install
-    @mkdir -p {{ BUILD_DIR / 'runestone' }}
-    shared/runic/build/runic --os linux from.json > {{ BUILD_DIR / 'runestone' / 'glew.linux' }}
+    @mkdir -p {{ BUILD_DIR / 'runestones' }}
+    shared/runic/build/runic --os linux   --arch x86_64 from.json > {{ BUILD_DIR / 'runestones' / 'glew.linux.x86_64' }}
+    shared/runic/build/runic --os linux   --arch arm64  from.json > {{ BUILD_DIR / 'runestones' / 'glew.linux.arm64' }}
+    shared/runic/build/runic --os windows --arch x86_64 from.json > {{ BUILD_DIR / 'runestones' / 'glew.windows.x86_64' }}
 
 to: from
     shared/runic/build/runic to.json
@@ -42,4 +44,3 @@ to: from
 [unix]
 clean:
     rm -rf {{ BUILD_DIR }}
-    rm -f glew.odin

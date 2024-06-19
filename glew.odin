@@ -1,4 +1,4 @@
-//+build linux
+//+build windows amd64, linux amd64, linux arm64
 package gl
 
 ZERO :: 0
@@ -6707,7 +6707,6 @@ GLbyte :: i8
 GLshort :: i16
 GLubyte :: u8
 GLushort :: u16
-GLulong :: u64
 GLfloat :: f32
 GLclampf :: f32
 GLdouble :: f64
@@ -9514,12 +9513,6 @@ PFNGLTEXCOORD4FVERTEX4FSUNPROC :: #type proc "c" (s: GLfloat, t: GLfloat, p: GLf
 PFNGLTEXCOORD4FVERTEX4FVSUNPROC :: #type proc "c" (tc: ^GLfloat, v: ^GLfloat)
 PFNGLADDSWAPHINTRECTWINPROC :: #type proc "c" (x: GLint, y: GLint, width: GLsizei, height: GLsizei)
 ptrdiff_t :: i64
-
-when #config(GLEW_STATIC, false) {
-    foreign import gl_runic "build/lib64/libGLEW.a"
-} else {
-    foreign import gl_runic "system:GLEW"
-}
 
 @(default_calling_convention = "c")
 foreign gl_runic {
@@ -36669,5 +36662,32 @@ EW_WIN_specular_fog :: #force_inline proc "contextless" () -> GLboolean {
 
 EW_WIN_swap_hint :: #force_inline proc "contextless" () -> GLboolean {
     return __GLEW_WIN_swap_hint
+}
+
+when (ODIN_OS == .Windows) && (ODIN_ARCH == .amd64) {
+
+CALLBACK :: `__attribute__ ((__stdcall__))`
+WINGDIAPI :: `__attribute__((dllimport))`
+
+GLulong :: u32
+
+when #config(GLEW_STATIC, false) {
+    foreign import gl_runic "lib/windows/x86_64/glew32s.lib"
+} else {
+    foreign import gl_runic "lib/windows/x86_64/glew32.lib"
+}
+
+}
+
+when (ODIN_OS == .Linux) && (ODIN_ARCH == .amd64) || (ODIN_OS == .Linux) && (ODIN_ARCH == .arm64) {
+
+GLulong :: u64
+
+when #config(GLEW_STATIC, false) {
+    foreign import gl_runic "build/lib64/libGLEW.a"
+} else {
+    foreign import gl_runic "system:GLEW"
+}
+
 }
 
