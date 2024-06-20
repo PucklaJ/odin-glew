@@ -3,8 +3,10 @@
   "from": {
     "language": "c",
     "shared": "libGLEW.so",
+    "shared.macos.x86_64": "lib/macos/x86_64/libGLEW.dylib",
     "shared.windows.x86_64": "lib/windows/x86_64/glew32.lib",
     "static.windows.x86_64": "lib/windows/x86_64/glew32s.lib",
+    "static.macos.x86_64": "lib/macos/x86_64/libGLEW.a",
     "headers": [
       "build/include/GL/glew.h"
     ],
