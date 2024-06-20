@@ -61,7 +61,7 @@ build: auto
 [macos]
 build: auto
     @mkdir -p {{ BUILD_DIR }}
-    DESTDIR={{ BUILD_DIR }} {{ MAKE }} -j {{ num_cpus() }} -C shared/glew install.include install.lib
+    DESTDIR={{ BUILD_DIR }} INCDIR=/include LIBDIR=/lib64 {{ MAKE }} -j {{ num_cpus() }} -C shared/glew install.include install.lib
     @rm -rf lib/macos
     @mkdir -p lib/macos
     ln -s {{ BUILD_DIR / 'lib64' / 'libGLEW.a' }} lib/macos/libGLEW.a
