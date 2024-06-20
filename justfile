@@ -1,6 +1,23 @@
 set windows-shell := ["C:\\Windows\\System32\\cmd.exe", "/k"]
 
 BUILD_DIR := justfile_directory() / 'build'
+EXAMPLE_BIN := BUILD_DIR / 'game_of_life' + if os_family() == 'windows' {'.exe'} else {''}
+EXAMPLE_LINK_FLAGS := if os() == 'windows' {
+    'opengl32.lib'
+} else if os() == 'linux' {
+    '-lEGL -lGL'
+} else if os() == 'macos' {
+    '-framework OpenGL'
+} else {
+    '-L/usr/local/lib -lGL'
+}
+EXAMPLE_GLEW_STATIC := if os_family() == 'windows' {
+    'true'
+} else if os() == 'macos' {
+    'true'
+} else {
+    'false'
+}
 
 default: to
 
@@ -44,6 +61,9 @@ from: runic install
 
 to: from
     shared/runic/build/runic to.json
+
+example:
+    odin build example -out:{{ EXAMPLE_BIN }} -debug -thread-count:{{ num_cpus() }} '-extra-linker-flags:{{ EXAMPLE_LINK_FLAGS }}' -define:GLEW_STATIC={{ EXAMPLE_GLEW_STATIC }}
 
 [unix]
 clean:
