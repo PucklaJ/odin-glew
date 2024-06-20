@@ -1,11 +1,11 @@
 {
   "version": 0,
   "from": [
-      "build/runestones/glew.linux.x86_64",
-      "build/runestones/glew.linux.arm64",
-      "build/runestones/glew.macos.x86_64",
-      "build/runestones/glew.macos.arm64",
-      "build/runestones/glew.windows.x86_64"
+    "build/runestones/glew.linux.x86_64",
+    "build/runestones/glew.linux.arm64",
+    "build/runestones/glew.macos.x86_64",
+    "build/runestones/glew.macos.arm64",
+    "build/runestones/glew.windows.x86_64"
   ],
   "to": {
     "language": "odin",
@@ -24,6 +24,7 @@
         "GL"
       ]
     },
+    "use_when_else": true,
     "out": "glew.odin"
   }
 }

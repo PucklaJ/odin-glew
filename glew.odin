@@ -36677,17 +36677,11 @@ when #config(GLEW_STATIC, false) {
     foreign import gl_runic "lib/windows/x86_64/glew32.lib"
 }
 
-}
-
-when (ODIN_OS == .Linux) && (ODIN_ARCH == .amd64) || (ODIN_OS == .Linux) && (ODIN_ARCH == .arm64) || (ODIN_OS == .Darwin) && (ODIN_ARCH == .amd64) || (ODIN_OS == .Darwin) && (ODIN_ARCH == .arm64) {
+} else {
 
 GLulong :: u64
 
-when #config(GLEW_STATIC, false) {
-    foreign import gl_runic "lib/linux/libGLEW.a"
-} else {
-    foreign import gl_runic "system:GLEW"
-}
+foreign import gl_runic "system:GLEW"
 
 }
 

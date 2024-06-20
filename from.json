@@ -4,8 +4,6 @@
     "language": "c",
     "shared": "libGLEW.so",
     "shared.windows.x86_64": "lib/windows/x86_64/glew32.lib",
-    "static.linux": "lib/linux/libGLEW.a",
-    "static.macos": "lib/macos/libGLEW.a",
     "static.windows.x86_64": "lib/windows/x86_64/glew32s.lib",
     "headers": [
       "build/include/GL/glew.h"
