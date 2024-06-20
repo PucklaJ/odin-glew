@@ -90,5 +90,5 @@ example:
 [unix]
 clean:
     rm -rf {{ BUILD_DIR }}
-    make -C shared/glew clean
-    make -C shared/glew/auto clean
+    DESTDIR={{ BUILD_DIR }} INCDIR=/include LIBDIR=/lib64 {{ MAKE }} -C shared/glew clean
+    {{ MAKE }} -C shared/glew/auto clean
