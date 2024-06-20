@@ -28,10 +28,18 @@ MAKE := if os() == 'linux' {
 
 default: to
 
+[linux]
 deps-arch:
-    pacman --needed --nonfirm base-devel libxmu libxi libglvnd
+    pacman -S --needed --noconfirm base-devel libxmu libxi libglvnd
+[linux]
 deps-debian:
     apt install --yes --no-upgrade build-essential libxmu-dev libxi-dev libgl-dev
+[macos]
+deps:
+    brew install python
+[unix]
+deps-freebsd:
+    pkg install -y xorg lang/gcc git cmake gmake bash python perl5
 
 [unix]
 auto:
