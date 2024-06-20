@@ -1,4 +1,4 @@
-//+build windows amd64, linux amd64, linux arm64
+//+build windows amd64, linux amd64, linux arm64, darwin amd64, darwin arm64
 package gl
 
 ZERO :: 0
@@ -36679,7 +36679,7 @@ when #config(GLEW_STATIC, false) {
 
 }
 
-when (ODIN_OS == .Linux) && (ODIN_ARCH == .amd64) || (ODIN_OS == .Linux) && (ODIN_ARCH == .arm64) {
+when (ODIN_OS == .Linux) && (ODIN_ARCH == .amd64) || (ODIN_OS == .Linux) && (ODIN_ARCH == .arm64) || (ODIN_OS == .Darwin) && (ODIN_ARCH == .amd64) || (ODIN_OS == .Darwin) && (ODIN_ARCH == .arm64) {
 
 GLulong :: u64
 
