@@ -52,8 +52,7 @@ build:
 [linux]
 build: auto
     @mkdir -p {{ BUILD_DIR }}
-    SYSTEM=linux-egl {{ MAKE }} -C shared/glew -j {{ num_cpus() }} glew.lib
-    SYSTEM=linux-egl GLEW_DEST={{ BUILD_DIR }} {{ MAKE }} -C shared/glew install
+    SYSTEM=linux-egl GLEW_DEST={{ BUILD_DIR }} {{ MAKE }} -j {{ num_cpus() }} -C shared/glew install.lib install.include
     @rm -rf lib/linux
     @mkdir -p lib/linux
     ln -s {{ BUILD_DIR / 'lib64' / 'libGLEW.a' }}  lib/linux/libGLEW.a
@@ -62,8 +61,7 @@ build: auto
 [macos]
 build: auto
     @mkdir -p {{ BUILD_DIR }}
-    {{ MAKE }} -C shared/glew -j {{ num_cpus() }} glew.lib
-    GLEW_DEST={{ BUILD_DIR }} {{ MAKE }} -C shared/glew install
+    DESTDIR={{ BUILD_DIR }} {{ MAKE }} -j {{ num_cpus() }} -C shared/glew install.include install.lib
     @rm -rf lib/macos
     @mkdir -p lib/macos
     ln -s {{ BUILD_DIR / 'lib64' / 'libGLEW.a' }} lib/macos/libGLEW.a
