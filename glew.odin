@@ -36672,7 +36672,9 @@ when #config(GLEW_STATIC, false) {
     foreign import gl_runic "lib/macos/x86_64/libGLEW.dylib"
 }
 
-} else when (ODIN_OS == .Windows) && (ODIN_ARCH == .amd64) {
+}
+
+when (ODIN_OS == .Windows) && (ODIN_ARCH == .amd64) {
 
 CALLBACK :: `__attribute__ ((__stdcall__))`
 WINGDIAPI :: `__attribute__((dllimport))`
@@ -36685,11 +36687,15 @@ when #config(GLEW_STATIC, false) {
     foreign import gl_runic "lib/windows/x86_64/glew32.lib"
 }
 
-} else when (ODIN_OS == .Linux) && (ODIN_ARCH == .amd64) || (ODIN_OS == .Linux) && (ODIN_ARCH == .arm64) || (ODIN_OS == .Darwin) && (ODIN_ARCH == .arm64) {
+}
+
+when (ODIN_OS == .Linux) && (ODIN_ARCH == .amd64) || (ODIN_OS == .Linux) && (ODIN_ARCH == .arm64) || (ODIN_OS == .Darwin) && (ODIN_ARCH == .arm64) {
 
 foreign import gl_runic "system:GLEW"
 
-} else {
+}
+
+when (ODIN_OS == .Linux) && (ODIN_ARCH == .amd64) || (ODIN_OS == .Linux) && (ODIN_ARCH == .arm64) || (ODIN_OS == .Darwin) && (ODIN_ARCH == .amd64) || (ODIN_OS == .Darwin) && (ODIN_ARCH == .arm64) {
 
 GLulong :: u64
 

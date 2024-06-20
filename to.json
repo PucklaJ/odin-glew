@@ -24,7 +24,7 @@
         "GL"
       ]
     },
-    "use_when_else": true,
+    "use_when_else": false,
     "out": "glew.odin"
   }
 }
