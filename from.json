@@ -5,6 +5,8 @@
     "shared": "libGLEW.so",
     "shared.macos.x86_64": "lib/macos/x86_64/libGLEW.dylib",
     "shared.windows.x86_64": "lib/windows/x86_64/glew32.lib",
+    "static": "libGLEW.a",
+    "static.linux": "lib/linux/libGLEW.a",
     "static.windows.x86_64": "lib/windows/x86_64/glew32s.lib",
     "static.macos.x86_64": "lib/macos/x86_64/libGLEW.a",
     "headers": [
@@ -27,9 +29,14 @@
         "GLEWAPI",
         "GLEW_VAR_EXPORT",
         "GLEW_FUN_EXPORT",
-        "MAX_VERTEX_TEXTURE_IMAGE_UNITS_ARB"
+        "MAX_VERTEX_TEXTURE_IMAGE_UNITS_ARB",
+        "CALLBACK",
+        "WINGDIAPI"
       ],
-      "types": "GLvoid"
+      "types": [
+        "GLvoid",
+        "GLulong"
+      ]
     }
   },
   "to": "stdout"

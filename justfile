@@ -80,12 +80,13 @@ from:
     shared/runic/build/runic --os macos   --arch x86_64 from.json > {{ BUILD_DIR / 'runestones' / 'glew.macos.x86_64' }}
     shared/runic/build/runic --os macos   --arch arm64  from.json > {{ BUILD_DIR / 'runestones' / 'glew.macos.arm64' }}
     shared/runic/build/runic --os windows --arch x86_64 from.json > {{ BUILD_DIR / 'runestones' / 'glew.windows.x86_64' }}
+    shared/runic/build/runic --os bsd     --arch x86_64 from.json > {{ BUILD_DIR / 'runestones' / 'glew.bsd.x86_64' }}
 
 to: from
     shared/runic/build/runic to.json
 
-example:
-    odin build example -out:{{ EXAMPLE_BIN }} -debug -thread-count:{{ num_cpus() }} '-extra-linker-flags:{{ EXAMPLE_LINK_FLAGS }}' -define:GLEW_STATIC={{ EXAMPLE_GLEW_STATIC }}
+example static=EXAMPLE_GLEW_STATIC:
+    odin build example -out:{{ EXAMPLE_BIN }} -debug -thread-count:{{ num_cpus() }} '-extra-linker-flags:{{ EXAMPLE_LINK_FLAGS }}' -define:GLEW_STATIC={{ static }}
 
 [unix]
 clean:

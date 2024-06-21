@@ -1,4 +1,3 @@
-//+build darwin amd64, windows amd64, linux amd64, linux arm64, darwin arm64, linux amd64, linux arm64, darwin amd64, darwin arm64
 package gl
 
 ZERO :: 0
@@ -36672,14 +36671,7 @@ when #config(GLEW_STATIC, false) {
     foreign import gl_runic "lib/macos/x86_64/libGLEW.dylib"
 }
 
-}
-
-when (ODIN_OS == .Windows) && (ODIN_ARCH == .amd64) {
-
-CALLBACK :: `__attribute__ ((__stdcall__))`
-WINGDIAPI :: `__attribute__((dllimport))`
-
-GLulong :: u32
+} else when (ODIN_OS == .Windows) && (ODIN_ARCH == .amd64) {
 
 when #config(GLEW_STATIC, false) {
     foreign import gl_runic "lib/windows/x86_64/glew32s.lib"
@@ -36687,17 +36679,25 @@ when #config(GLEW_STATIC, false) {
     foreign import gl_runic "lib/windows/x86_64/glew32.lib"
 }
 
+} else when (ODIN_OS == .Linux) && (ODIN_ARCH == .amd64) || (ODIN_OS == .Linux) && (ODIN_ARCH == .arm64) {
+
+when #config(GLEW_STATIC, false) {
+    foreign import gl_runic "lib/linux/libGLEW.a"
+} else {
+    foreign import gl_runic "system:GLEW"
 }
 
-when (ODIN_OS == .Linux) && (ODIN_ARCH == .amd64) || (ODIN_OS == .Linux) && (ODIN_ARCH == .arm64) || (ODIN_OS == .Darwin) && (ODIN_ARCH == .arm64) {
+} else {
 
-foreign import gl_runic "system:GLEW"
-
+when #config(GLEW_STATIC, false) {
+    when ODIN_OS == .Darwin {
+    foreign import gl_runic "system:GLEW"
+} else {
+    foreign import gl_runic "system:libGLEW.a"
 }
-
-when (ODIN_OS == .Linux) && (ODIN_ARCH == .amd64) || (ODIN_OS == .Linux) && (ODIN_ARCH == .arm64) || (ODIN_OS == .Darwin) && (ODIN_ARCH == .amd64) || (ODIN_OS == .Darwin) && (ODIN_ARCH == .arm64) {
-
-GLulong :: u64
+} else {
+    foreign import gl_runic "system:GLEW"
+}
 
 }
 
