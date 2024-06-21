@@ -93,3 +93,7 @@ clean:
     rm -rf {{ BUILD_DIR }}
     {{ MAKE }} -C shared/glew clean
     {{ MAKE }} -C shared/glew/auto clean
+    rm -rf shared/glew/auto/EGL-Registry
+    rm -rf shared/glew/auto/glfixes
+    rm -rf shared/glew/auto/OpenGL-Registry
+    rm -rf shared/glew/auto/extensions
