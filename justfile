@@ -1,4 +1,4 @@
-set windows-shell := ["C:\\Windows\\System32\\cmd.exe", "/k"]
+set windows-shell := ["powershell.exe"]
 
 BUILD_DIR := justfile_directory() / 'build'
 EXAMPLE_BIN := BUILD_DIR / 'game_of_life' + if os_family() == 'windows' {'.exe'} else {''}
