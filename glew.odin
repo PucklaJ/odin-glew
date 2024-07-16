@@ -36663,7 +36663,15 @@ EW_WIN_swap_hint :: #force_inline proc "contextless" () -> GLboolean {
     return __GLEW_WIN_swap_hint
 }
 
-when (ODIN_OS == .Darwin) && (ODIN_ARCH == .amd64) {
+when (ODIN_OS == .Linux) {
+
+when #config(GLEW_STATIC, false) {
+    foreign import gl_runic "lib/linux/libGLEW.a"
+} else {
+    foreign import gl_runic "system:GLEW"
+}
+
+} else when (ODIN_OS == .Darwin) && (ODIN_ARCH == .amd64) {
 
 when #config(GLEW_STATIC, false) {
     foreign import gl_runic "lib/macos/x86_64/libGLEW.a"
@@ -36677,14 +36685,6 @@ when #config(GLEW_STATIC, false) {
     foreign import gl_runic "lib/windows/x86_64/glew32s.lib"
 } else {
     foreign import gl_runic "lib/windows/x86_64/glew32.lib"
-}
-
-} else when (ODIN_OS == .Linux) && (ODIN_ARCH == .amd64) || (ODIN_OS == .Linux) && (ODIN_ARCH == .arm64) {
-
-when #config(GLEW_STATIC, false) {
-    foreign import gl_runic "lib/linux/libGLEW.a"
-} else {
-    foreign import gl_runic "system:GLEW"
 }
 
 } else {
