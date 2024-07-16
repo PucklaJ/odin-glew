@@ -51,8 +51,7 @@ build:
     msbuild /p:PlatformToolset=v143 /p:Platform=x64 /p:Configuration=Release shared\glew\build\vc15\glew.sln
 
 [linux]
-build: auto
-    @mkdir -p {{ BUILD_DIR }}
+build: auto (make-directory BUILD_DIR)
     SYSTEM=linux-egl GLEW_DEST={{ BUILD_DIR }} {{ MAKE }} -j {{ num_cpus() }} -C shared/glew install.lib install.include
     @rm -rf lib/linux
     @mkdir -p lib/linux
@@ -60,8 +59,7 @@ build: auto
     ln -s {{ BUILD_DIR / 'lib64' / 'libGLEW.so' }} lib/linux/libGLEW.so
 
 [macos]
-build: auto
-    @mkdir -p {{ BUILD_DIR }}
+build: auto (make-directory BUILD_DIR)
     DESTDIR={{ BUILD_DIR }} INCDIR=/include LIBDIR=/lib64 {{ MAKE }} -j {{ num_cpus() }} -C shared/glew install.include install.lib
     @rm -rf lib/macos
     @mkdir -p lib/macos
@@ -74,7 +72,7 @@ install:
 runic:
     just -f shared/runic/justfile
 
-from:
+from: (make-directory BUILD_DIR / 'runestones')
     @mkdir -p {{ BUILD_DIR / 'runestones' }}
     {{ RUNIC }} --os linux   --arch x86_64 from.yml > {{ BUILD_DIR / 'runestones' / 'glew.linux.x86_64' }}
     {{ RUNIC }} --os linux   --arch arm64  from.yml > {{ BUILD_DIR / 'runestones' / 'glew.linux.arm64' }}
@@ -86,7 +84,7 @@ from:
 to: from
     {{ RUNIC }} to.yml
 
-example static=EXAMPLE_GLEW_STATIC:
+example static=EXAMPLE_GLEW_STATIC: (make-directory BUILD_DIR)
     odin build example -out:{{ EXAMPLE_BIN }} -debug -thread-count:{{ num_cpus() }} '-extra-linker-flags:{{ EXAMPLE_LINK_FLAGS }}' -define:GLEW_STATIC={{ static }}
 
 [unix]
@@ -98,3 +96,11 @@ clean:
     rm -rf shared/glew/auto/glfixes
     rm -rf shared/glew/auto/OpenGL-Registry
     rm -rf shared/glew/auto/extensions
+
+[unix]
+make-directory DIR:
+    @mkdir -p "{{ DIR }}"
+
+[windows]
+make-directory DIR:
+    @New-Item -Path "{{ DIR }}" -ItemType Directory -Force
