@@ -1,0 +1,32 @@
+version: 0
+from:
+  language: c
+  shared: libGLEW.so
+  shared.macos.x86_64: "lib/macos/x86_64/libGLEW.dylib"
+  shared.windows.x86_64: "lib/windows/x86_64/glew32.lib"
+  static: libGLEW.a
+  static.linux: "lib/linux/libGLEW.a"
+  static.windows.x86_64: "lib/windows/x86_64/glew32s.lib"
+  static.macos.x86_64: "lib/macos/x86_64/libGLEW.a"
+  headers: "build/include/GL/glew.h"
+  defines:
+    GLEW_BUILD: 1
+    'GLEW_GET_VAR(x)': x
+    GLEW_NO_GLU: 1
+  includedirs: "build/include"
+  ignore:
+    macros:
+      - "_*"
+      - "*APIENTRY*"
+      - "GLAPI"
+      - "GL_VERSION_*"
+      - "GLEWAPI"
+      - "GLEW_VAR_EXPORT"
+      - "GLEW_FUN_EXPORT"
+      - "MAX_VERTEX_TEXTURE_IMAGE_UNITS_ARB"
+      - "CALLBACK"
+      - "WINGDIAPI"
+    types:
+      - "GLvoid"
+      - "GLulong"
+to: stdout

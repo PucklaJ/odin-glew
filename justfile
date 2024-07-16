@@ -76,15 +76,15 @@ runic:
 
 from:
     @mkdir -p {{ BUILD_DIR / 'runestones' }}
-    {{ RUNIC }} --os linux   --arch x86_64 from.json > {{ BUILD_DIR / 'runestones' / 'glew.linux.x86_64' }}
-    {{ RUNIC }} --os linux   --arch arm64  from.json > {{ BUILD_DIR / 'runestones' / 'glew.linux.arm64' }}
-    {{ RUNIC }} --os macos   --arch x86_64 from.json > {{ BUILD_DIR / 'runestones' / 'glew.macos.x86_64' }}
-    {{ RUNIC }} --os macos   --arch arm64  from.json > {{ BUILD_DIR / 'runestones' / 'glew.macos.arm64' }}
-    {{ RUNIC }} --os windows --arch x86_64 from.json > {{ BUILD_DIR / 'runestones' / 'glew.windows.x86_64' }}
-    {{ RUNIC }} --os bsd     --arch x86_64 from.json > {{ BUILD_DIR / 'runestones' / 'glew.bsd.x86_64' }}
+    {{ RUNIC }} --os linux   --arch x86_64 from.yml > {{ BUILD_DIR / 'runestones' / 'glew.linux.x86_64' }}
+    {{ RUNIC }} --os linux   --arch arm64  from.yml > {{ BUILD_DIR / 'runestones' / 'glew.linux.arm64' }}
+    {{ RUNIC }} --os macos   --arch x86_64 from.yml > {{ BUILD_DIR / 'runestones' / 'glew.macos.x86_64' }}
+    {{ RUNIC }} --os macos   --arch arm64  from.yml > {{ BUILD_DIR / 'runestones' / 'glew.macos.arm64' }}
+    {{ RUNIC }} --os windows --arch x86_64 from.yml > {{ BUILD_DIR / 'runestones' / 'glew.windows.x86_64' }}
+    {{ RUNIC }} --os bsd     --arch x86_64 from.yml > {{ BUILD_DIR / 'runestones' / 'glew.bsd.x86_64' }}
 
 to: from
-    {{ RUNIC }} to.json
+    {{ RUNIC }} to.yml
 
 example static=EXAMPLE_GLEW_STATIC:
     odin build example -out:{{ EXAMPLE_BIN }} -debug -thread-count:{{ num_cpus() }} '-extra-linker-flags:{{ EXAMPLE_LINK_FLAGS }}' -define:GLEW_STATIC={{ static }}
