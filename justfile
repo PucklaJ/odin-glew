@@ -34,7 +34,7 @@ deps-arch:
     pacman -S --needed --noconfirm base-devel libxmu libxi libglvnd
 [linux]
 deps-debian:
-    apt install --yes --no-upgrade build-essential libxmu-dev libxi-dev libgl-dev
+    apt install --yes --no-upgrade build-essential libxmu-dev libxi-dev libgl-dev libegl-dev python-is-python3
 [macos]
 deps:
     brew install python
