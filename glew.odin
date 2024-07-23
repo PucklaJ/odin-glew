@@ -1,3 +1,4 @@
+//+build amd64, arm64
 package gl
 
 ZERO :: 0
@@ -36671,20 +36672,20 @@ when #config(GLEW_STATIC, false) {
     foreign import gl_runic "system:GLEW"
 }
 
-} else when (ODIN_OS == .Darwin) && (ODIN_ARCH == .amd64) {
-
-when #config(GLEW_STATIC, false) {
-    foreign import gl_runic "lib/macos/x86_64/libGLEW.a"
-} else {
-    foreign import gl_runic "lib/macos/x86_64/libGLEW.dylib"
-}
-
 } else when (ODIN_OS == .Windows) && (ODIN_ARCH == .amd64) {
 
 when #config(GLEW_STATIC, false) {
     foreign import gl_runic "lib/windows/x86_64/glew32s.lib"
 } else {
     foreign import gl_runic "lib/windows/x86_64/glew32.lib"
+}
+
+} else when (ODIN_OS == .Darwin) && (ODIN_ARCH == .amd64) {
+
+when #config(GLEW_STATIC, false) {
+    foreign import gl_runic "lib/macos/x86_64/libGLEW.a"
+} else {
+    foreign import gl_runic "lib/macos/x86_64/libGLEW.dylib"
 }
 
 } else {

@@ -27,7 +27,7 @@ MAKE := if os() == 'linux' {
 }
 RUNIC := 'runic'
 
-default: to
+default: bindings
 
 [linux]
 deps-arch:
@@ -72,17 +72,12 @@ install:
 runic:
     just -f shared/runic/justfile
 
-from: (make-directory BUILD_DIR / 'runestones')
-    @mkdir -p {{ BUILD_DIR / 'runestones' }}
-    {{ RUNIC }} --os linux   --arch x86_64 from.yml > {{ BUILD_DIR / 'runestones' / 'glew.linux.x86_64' }}
-    {{ RUNIC }} --os linux   --arch arm64  from.yml > {{ BUILD_DIR / 'runestones' / 'glew.linux.arm64' }}
-    {{ RUNIC }} --os macos   --arch x86_64 from.yml > {{ BUILD_DIR / 'runestones' / 'glew.macos.x86_64' }}
-    {{ RUNIC }} --os macos   --arch arm64  from.yml > {{ BUILD_DIR / 'runestones' / 'glew.macos.arm64' }}
-    {{ RUNIC }} --os windows --arch x86_64 from.yml > {{ BUILD_DIR / 'runestones' / 'glew.windows.x86_64' }}
-    {{ RUNIC }} --os bsd     --arch x86_64 from.yml > {{ BUILD_DIR / 'runestones' / 'glew.bsd.x86_64' }}
+bindings:
+    {{ RUNIC }}
 
-to: from
-    {{ RUNIC }} to.yml
+    echo '//+build amd64, arm64' > glew.odin.tmp
+    cat glew.odin >> glew.odin.tmp
+    mv glew.odin.tmp glew.odin
 
 example static=EXAMPLE_GLEW_STATIC: (make-directory BUILD_DIR)
     odin build example -out:{{ EXAMPLE_BIN }} -debug -thread-count:{{ num_cpus() }} '-extra-linker-flags:{{ EXAMPLE_LINK_FLAGS }}' -define:GLEW_STATIC={{ static }}

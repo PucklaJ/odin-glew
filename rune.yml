@@ -1,4 +1,13 @@
 version: 0
+platforms:
+  - Linux x86_64
+  - Linux arm64
+  - Windows x86_64
+  - Windows arm64
+  - Macos x86_64
+  - Macos arm64
+  - BSD x86_64
+  - BSD arm64
 from:
   language: c
   shared: libGLEW.so
@@ -29,4 +38,19 @@ from:
     types:
       - "GLvoid"
       - "GLulong"
-to: stdout
+to:
+  language: odin
+  package: gl
+  static_switch: GLEW_STATIC
+  trim_prefix:
+    constants:
+      - GL_
+      - GL
+    functions:
+      - gl
+    variables:
+      - gl
+      - GL
+  no_build_tag: true
+  use_when_else: true
+  out: glew.odin
