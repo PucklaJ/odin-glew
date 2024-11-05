@@ -55,6 +55,7 @@ build: auto (make-directory BUILD_DIR)
     SYSTEM=linux-egl GLEW_DEST={{ BUILD_DIR }} {{ MAKE }} -j {{ num_cpus() }} -C shared/glew install.lib install.include
     @rm -rf lib/linux
     @mkdir -p lib/linux
+    -ln -s {{ BUILD_DIR / 'lib' }} {{ BUILD_DIR / 'lib64' }}
     ln -s {{ BUILD_DIR / 'lib64' / 'libGLEW.a' }}  lib/linux/libGLEW.a
     ln -s {{ BUILD_DIR / 'lib64' / 'libGLEW.so' }} lib/linux/libGLEW.so
 
