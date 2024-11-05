@@ -6815,8 +6815,8 @@ PFNGLWINDOWPOS3IPROC :: #type proc "c" (x: GLint, y: GLint, z: GLint)
 PFNGLWINDOWPOS3IVPROC :: #type proc "c" (p: ^GLint)
 PFNGLWINDOWPOS3SPROC :: #type proc "c" (x: GLshort, y: GLshort, z: GLshort)
 PFNGLWINDOWPOS3SVPROC :: #type proc "c" (p: ^GLshort)
-GLintptr :: ptrdiff_t
-GLsizeiptr :: ptrdiff_t
+GLintptr :: i64
+GLsizeiptr :: i64
 PFNGLBEGINQUERYPROC :: #type proc "c" (target: GLenum, id: GLuint)
 PFNGLBINDBUFFERPROC :: #type proc "c" (target: GLenum, buffer: GLuint)
 PFNGLBUFFERDATAPROC :: #type proc "c" (target: GLenum, size: GLsizeiptr, data: rawptr, usage: GLenum)
@@ -6867,7 +6867,7 @@ PFNGLGETVERTEXATTRIBIVPROC :: #type proc "c" (index: GLuint, pname: GLenum, para
 PFNGLISPROGRAMPROC :: #type proc "c" (program: GLuint) -> GLboolean
 PFNGLISSHADERPROC :: #type proc "c" (shader: GLuint) -> GLboolean
 PFNGLLINKPROGRAMPROC :: #type proc "c" (program: GLuint)
-PFNGLSHADERSOURCEPROC :: #type proc "c" (shader: GLuint, count: GLsizei, string_: ^^GLchar, length: ^GLint)
+PFNGLSHADERSOURCEPROC :: #type proc "c" (shader: GLuint, count: GLsizei, string_p: ^^GLchar, length: ^GLint)
 PFNGLSTENCILFUNCSEPARATEPROC :: #type proc "c" (face: GLenum, func: GLenum, ref: GLint, mask: GLuint)
 PFNGLSTENCILMASKSEPARATEPROC :: #type proc "c" (face: GLenum, mask: GLuint)
 PFNGLSTENCILOPSEPARATEPROC :: #type proc "c" (face: GLenum, sfail: GLenum, dpfail: GLenum, dppass: GLenum)
@@ -7088,13 +7088,13 @@ PFNGLRESOLVEMULTISAMPLEFRAMEBUFFERAPPLEPROC :: #type proc "c" ()
 PFNGLGETOBJECTPARAMETERIVAPPLEPROC :: #type proc "c" (objectType: GLenum, name: GLuint, pname: GLenum, params: [^]GLint)
 PFNGLOBJECTPURGEABLEAPPLEPROC :: #type proc "c" (objectType: GLenum, name: GLuint, option: GLenum) -> GLenum
 PFNGLOBJECTUNPURGEABLEAPPLEPROC :: #type proc "c" (objectType: GLenum, name: GLuint, option: GLenum) -> GLenum
-PFNGLCLIENTWAITSYNCAPPLEPROC :: #type proc "c" (GLsync: GLsync, flags: GLbitfield, timeout: GLuint64) -> GLenum
-PFNGLDELETESYNCAPPLEPROC :: #type proc "c" (GLsync: GLsync)
+PFNGLCLIENTWAITSYNCAPPLEPROC :: #type proc "c" (GLsync_p: GLsync, flags: GLbitfield, timeout: GLuint64) -> GLenum
+PFNGLDELETESYNCAPPLEPROC :: #type proc "c" (GLsync_p: GLsync)
 PFNGLFENCESYNCAPPLEPROC :: #type proc "c" (condition: GLenum, flags: GLbitfield) -> GLsync
 PFNGLGETINTEGER64VAPPLEPROC :: #type proc "c" (pname: GLenum, params: [^]GLint64)
-PFNGLGETSYNCIVAPPLEPROC :: #type proc "c" (GLsync: GLsync, pname: GLenum, bufSize: GLsizei, length: ^GLsizei, values: [^]GLint)
-PFNGLISSYNCAPPLEPROC :: #type proc "c" (GLsync: GLsync) -> GLboolean
-PFNGLWAITSYNCAPPLEPROC :: #type proc "c" (GLsync: GLsync, flags: GLbitfield, timeout: GLuint64)
+PFNGLGETSYNCIVAPPLEPROC :: #type proc "c" (GLsync_p: GLsync, pname: GLenum, bufSize: GLsizei, length: ^GLsizei, values: [^]GLint)
+PFNGLISSYNCAPPLEPROC :: #type proc "c" (GLsync_p: GLsync) -> GLboolean
+PFNGLWAITSYNCAPPLEPROC :: #type proc "c" (GLsync_p: GLsync, flags: GLbitfield, timeout: GLuint64)
 PFNGLGETTEXPARAMETERPOINTERVAPPLEPROC :: #type proc "c" (target: GLenum, pname: GLenum, params: [^]rawptr)
 PFNGLTEXTURERANGEAPPLEPROC :: #type proc "c" (target: GLenum, length: GLsizei, pointer: rawptr)
 PFNGLBINDVERTEXARRAYAPPLEPROC :: #type proc "c" (array: GLuint)
@@ -7143,7 +7143,7 @@ PFNGLGETFRAGDATAINDEXPROC :: #type proc "c" (program: GLuint, name: ^GLchar) -> 
 PFNGLBUFFERSTORAGEPROC :: #type proc "c" (target: GLenum, size: GLsizeiptr, data: rawptr, flags: GLbitfield)
 cl_context :: rawptr
 cl_event :: rawptr
-PFNGLCREATESYNCFROMCLEVENTARBPROC :: #type proc "c" (context_: cl_context, event: cl_event, flags: GLbitfield) -> GLsync
+PFNGLCREATESYNCFROMCLEVENTARBPROC :: #type proc "c" (context_p: cl_context, event: cl_event, flags: GLbitfield) -> GLsync
 PFNGLCLEARBUFFERDATAPROC :: #type proc "c" (target: GLenum, internalformat: GLenum, format: GLenum, type: GLenum, data: rawptr)
 PFNGLCLEARBUFFERSUBDATAPROC :: #type proc "c" (target: GLenum, internalformat: GLenum, offset: GLintptr, size: GLsizeiptr, format: GLenum, type: GLenum, data: rawptr)
 PFNGLCLEARNAMEDBUFFERDATAEXTPROC :: #type proc "c" (buffer: GLuint, internalformat: GLenum, format: GLenum, type: GLenum, data: rawptr)
@@ -7481,9 +7481,9 @@ PFNGLGETNMAPDVARBPROC :: #type proc "c" (target: GLenum, query: GLenum, bufSize:
 PFNGLGETNMAPFVARBPROC :: #type proc "c" (target: GLenum, query: GLenum, bufSize: GLsizei, v: ^GLfloat)
 PFNGLGETNMAPIVARBPROC :: #type proc "c" (target: GLenum, query: GLenum, bufSize: GLsizei, v: ^GLint)
 PFNGLGETNMINMAXARBPROC :: #type proc "c" (target: GLenum, reset: GLboolean, format: GLenum, type: GLenum, bufSize: GLsizei, values: rawptr)
-PFNGLGETNPIXELMAPFVARBPROC :: #type proc "c" (map_: GLenum, bufSize: GLsizei, values: [^]GLfloat)
-PFNGLGETNPIXELMAPUIVARBPROC :: #type proc "c" (map_: GLenum, bufSize: GLsizei, values: [^]GLuint)
-PFNGLGETNPIXELMAPUSVARBPROC :: #type proc "c" (map_: GLenum, bufSize: GLsizei, values: [^]GLushort)
+PFNGLGETNPIXELMAPFVARBPROC :: #type proc "c" (map_p: GLenum, bufSize: GLsizei, values: [^]GLfloat)
+PFNGLGETNPIXELMAPUIVARBPROC :: #type proc "c" (map_p: GLenum, bufSize: GLsizei, values: [^]GLuint)
+PFNGLGETNPIXELMAPUSVARBPROC :: #type proc "c" (map_p: GLenum, bufSize: GLsizei, values: [^]GLushort)
 PFNGLGETNPOLYGONSTIPPLEARBPROC :: #type proc "c" (bufSize: GLsizei, pattern: ^GLubyte)
 PFNGLGETNSEPARABLEFILTERARBPROC :: #type proc "c" (target: GLenum, format: GLenum, type: GLenum, rowBufSize: GLsizei, row: rawptr, columnBufSize: GLsizei, column: rawptr, span: rawptr)
 PFNGLGETNTEXIMAGEARBPROC :: #type proc "c" (target: GLenum, level: GLint, format: GLenum, type: GLenum, bufSize: GLsizei, img: rawptr)
@@ -7573,7 +7573,7 @@ PFNGLVALIDATEPROGRAMPIPELINEPROC :: #type proc "c" (pipeline: GLuint)
 PFNGLGETACTIVEATOMICCOUNTERBUFFERIVPROC :: #type proc "c" (program: GLuint, bufferIndex: GLuint, pname: GLenum, params: [^]GLint)
 PFNGLBINDIMAGETEXTUREPROC :: #type proc "c" (unit: GLuint, texture: GLuint, level: GLint, layered: GLboolean, layer: GLint, access: GLenum, format: GLenum)
 PFNGLMEMORYBARRIERPROC :: #type proc "c" (barriers: GLbitfield)
-GLcharARB :: i8
+GLcharARB :: GLchar
 GLhandleARB :: u32
 PFNGLATTACHOBJECTARBPROC :: #type proc "c" (containerObj: GLhandleARB, obj: GLhandleARB)
 PFNGLCOMPILESHADERARBPROC :: #type proc "c" (shaderObj: GLhandleARB)
@@ -7592,7 +7592,7 @@ PFNGLGETUNIFORMLOCATIONARBPROC :: #type proc "c" (programObj: GLhandleARB, name:
 PFNGLGETUNIFORMFVARBPROC :: #type proc "c" (programObj: GLhandleARB, location: GLint, params: [^]GLfloat)
 PFNGLGETUNIFORMIVARBPROC :: #type proc "c" (programObj: GLhandleARB, location: GLint, params: [^]GLint)
 PFNGLLINKPROGRAMARBPROC :: #type proc "c" (programObj: GLhandleARB)
-PFNGLSHADERSOURCEARBPROC :: #type proc "c" (shaderObj: GLhandleARB, count: GLsizei, string_: ^^GLcharARB, length: ^GLint)
+PFNGLSHADERSOURCEARBPROC :: #type proc "c" (shaderObj: GLhandleARB, count: GLsizei, string_p: ^^GLcharARB, length: ^GLint)
 PFNGLUNIFORM1FARBPROC :: #type proc "c" (location: GLint, v0: GLfloat)
 PFNGLUNIFORM1FVARBPROC :: #type proc "c" (location: GLint, count: GLsizei, value: ^GLfloat)
 PFNGLUNIFORM1IARBPROC :: #type proc "c" (location: GLint, v0: GLint)
@@ -7625,19 +7625,19 @@ PFNGLGETUNIFORMSUBROUTINEUIVPROC :: #type proc "c" (shadertype: GLenum, location
 PFNGLUNIFORMSUBROUTINESUIVPROC :: #type proc "c" (shadertype: GLenum, count: GLsizei, indices: [^]GLuint)
 PFNGLCOMPILESHADERINCLUDEARBPROC :: #type proc "c" (shader: GLuint, count: GLsizei, path: ^^GLchar, length: ^GLint)
 PFNGLDELETENAMEDSTRINGARBPROC :: #type proc "c" (namelen: GLint, name: ^GLchar)
-PFNGLGETNAMEDSTRINGARBPROC :: #type proc "c" (namelen: GLint, name: ^GLchar, bufSize: GLsizei, stringlen: ^GLint, string_: ^GLchar)
+PFNGLGETNAMEDSTRINGARBPROC :: #type proc "c" (namelen: GLint, name: ^GLchar, bufSize: GLsizei, stringlen: ^GLint, string_p: ^GLchar)
 PFNGLGETNAMEDSTRINGIVARBPROC :: #type proc "c" (namelen: GLint, name: ^GLchar, pname: GLenum, params: [^]GLint)
 PFNGLISNAMEDSTRINGARBPROC :: #type proc "c" (namelen: GLint, name: ^GLchar) -> GLboolean
-PFNGLNAMEDSTRINGARBPROC :: #type proc "c" (type: GLenum, namelen: GLint, name: ^GLchar, stringlen: GLint, string_: ^GLchar)
+PFNGLNAMEDSTRINGARBPROC :: #type proc "c" (type: GLenum, namelen: GLint, name: ^GLchar, stringlen: GLint, string_p: ^GLchar)
 PFNGLBUFFERPAGECOMMITMENTARBPROC :: #type proc "c" (target: GLenum, offset: GLintptr, size: GLsizeiptr, commit: GLboolean)
 PFNGLTEXPAGECOMMITMENTARBPROC :: #type proc "c" (target: GLenum, level: GLint, xoffset: GLint, yoffset: GLint, zoffset: GLint, width: GLsizei, height: GLsizei, depth: GLsizei, commit: GLboolean)
-PFNGLCLIENTWAITSYNCPROC :: #type proc "c" (GLsync: GLsync, flags: GLbitfield, timeout: GLuint64) -> GLenum
-PFNGLDELETESYNCPROC :: #type proc "c" (GLsync: GLsync)
+PFNGLCLIENTWAITSYNCPROC :: #type proc "c" (GLsync_p: GLsync, flags: GLbitfield, timeout: GLuint64) -> GLenum
+PFNGLDELETESYNCPROC :: #type proc "c" (GLsync_p: GLsync)
 PFNGLFENCESYNCPROC :: #type proc "c" (condition: GLenum, flags: GLbitfield) -> GLsync
 PFNGLGETINTEGER64VPROC :: #type proc "c" (pname: GLenum, params: [^]GLint64)
-PFNGLGETSYNCIVPROC :: #type proc "c" (GLsync: GLsync, pname: GLenum, bufSize: GLsizei, length: ^GLsizei, values: [^]GLint)
-PFNGLISSYNCPROC :: #type proc "c" (GLsync: GLsync) -> GLboolean
-PFNGLWAITSYNCPROC :: #type proc "c" (GLsync: GLsync, flags: GLbitfield, timeout: GLuint64)
+PFNGLGETSYNCIVPROC :: #type proc "c" (GLsync_p: GLsync, pname: GLenum, bufSize: GLsizei, length: ^GLsizei, values: [^]GLint)
+PFNGLISSYNCPROC :: #type proc "c" (GLsync_p: GLsync) -> GLboolean
+PFNGLWAITSYNCPROC :: #type proc "c" (GLsync_p: GLsync, flags: GLbitfield, timeout: GLuint64)
 PFNGLPATCHPARAMETERFVPROC :: #type proc "c" (pname: GLenum, values: [^]GLfloat)
 PFNGLPATCHPARAMETERIPROC :: #type proc "c" (pname: GLenum, value: GLint)
 PFNGLTEXTUREBARRIERPROC :: #type proc "c" ()
@@ -7729,8 +7729,8 @@ PFNGLWEIGHTSVARBPROC :: #type proc "c" (size: GLint, weights: [^]GLshort)
 PFNGLWEIGHTUBVARBPROC :: #type proc "c" (size: GLint, weights: [^]GLubyte)
 PFNGLWEIGHTUIVARBPROC :: #type proc "c" (size: GLint, weights: [^]GLuint)
 PFNGLWEIGHTUSVARBPROC :: #type proc "c" (size: GLint, weights: [^]GLushort)
-GLintptrARB :: ptrdiff_t
-GLsizeiptrARB :: ptrdiff_t
+GLintptrARB :: i64
+GLsizeiptrARB :: i64
 PFNGLBINDBUFFERARBPROC :: #type proc "c" (target: GLenum, buffer: GLuint)
 PFNGLBUFFERDATAARBPROC :: #type proc "c" (target: GLenum, size: GLsizeiptrARB, data: rawptr, usage: GLenum)
 PFNGLBUFFERSUBDATAARBPROC :: #type proc "c" (target: GLenum, offset: GLintptrARB, size: GLsizeiptrARB, data: rawptr)
@@ -7751,7 +7751,7 @@ PFNGLGETPROGRAMENVPARAMETERDVARBPROC :: #type proc "c" (target: GLenum, index: G
 PFNGLGETPROGRAMENVPARAMETERFVARBPROC :: #type proc "c" (target: GLenum, index: GLuint, params: [^]GLfloat)
 PFNGLGETPROGRAMLOCALPARAMETERDVARBPROC :: #type proc "c" (target: GLenum, index: GLuint, params: [^]GLdouble)
 PFNGLGETPROGRAMLOCALPARAMETERFVARBPROC :: #type proc "c" (target: GLenum, index: GLuint, params: [^]GLfloat)
-PFNGLGETPROGRAMSTRINGARBPROC :: #type proc "c" (target: GLenum, pname: GLenum, string_: rawptr)
+PFNGLGETPROGRAMSTRINGARBPROC :: #type proc "c" (target: GLenum, pname: GLenum, string_p: rawptr)
 PFNGLGETPROGRAMIVARBPROC :: #type proc "c" (target: GLenum, pname: GLenum, params: [^]GLint)
 PFNGLGETVERTEXATTRIBPOINTERVARBPROC :: #type proc "c" (index: GLuint, pname: GLenum, pointer: ^rawptr)
 PFNGLGETVERTEXATTRIBDVARBPROC :: #type proc "c" (index: GLuint, pname: GLenum, params: [^]GLdouble)
@@ -7766,7 +7766,7 @@ PFNGLPROGRAMLOCALPARAMETER4DARBPROC :: #type proc "c" (target: GLenum, index: GL
 PFNGLPROGRAMLOCALPARAMETER4DVARBPROC :: #type proc "c" (target: GLenum, index: GLuint, params: [^]GLdouble)
 PFNGLPROGRAMLOCALPARAMETER4FARBPROC :: #type proc "c" (target: GLenum, index: GLuint, x: GLfloat, y: GLfloat, z: GLfloat, w: GLfloat)
 PFNGLPROGRAMLOCALPARAMETER4FVARBPROC :: #type proc "c" (target: GLenum, index: GLuint, params: [^]GLfloat)
-PFNGLPROGRAMSTRINGARBPROC :: #type proc "c" (target: GLenum, format: GLenum, len: GLsizei, string_: rawptr)
+PFNGLPROGRAMSTRINGARBPROC :: #type proc "c" (target: GLenum, format: GLenum, len: GLsizei, string_p: rawptr)
 PFNGLVERTEXATTRIB1DARBPROC :: #type proc "c" (index: GLuint, x: GLdouble)
 PFNGLVERTEXATTRIB1DVARBPROC :: #type proc "c" (index: GLuint, v: ^GLdouble)
 PFNGLVERTEXATTRIB1FARBPROC :: #type proc "c" (index: GLuint, x: GLfloat)
@@ -8079,7 +8079,7 @@ PFNGLGETNAMEDPROGRAMLOCALPARAMETERIIVEXTPROC :: #type proc "c" (program: GLuint,
 PFNGLGETNAMEDPROGRAMLOCALPARAMETERIUIVEXTPROC :: #type proc "c" (program: GLuint, target: GLenum, index: GLuint, params: [^]GLuint)
 PFNGLGETNAMEDPROGRAMLOCALPARAMETERDVEXTPROC :: #type proc "c" (program: GLuint, target: GLenum, index: GLuint, params: [^]GLdouble)
 PFNGLGETNAMEDPROGRAMLOCALPARAMETERFVEXTPROC :: #type proc "c" (program: GLuint, target: GLenum, index: GLuint, params: [^]GLfloat)
-PFNGLGETNAMEDPROGRAMSTRINGEXTPROC :: #type proc "c" (program: GLuint, target: GLenum, pname: GLenum, string_: rawptr)
+PFNGLGETNAMEDPROGRAMSTRINGEXTPROC :: #type proc "c" (program: GLuint, target: GLenum, pname: GLenum, string_p: rawptr)
 PFNGLGETNAMEDPROGRAMIVEXTPROC :: #type proc "c" (program: GLuint, target: GLenum, pname: GLenum, params: [^]GLint)
 PFNGLGETNAMEDRENDERBUFFERPARAMETERIVEXTPROC :: #type proc "c" (renderbuffer: GLuint, pname: GLenum, params: [^]GLint)
 PFNGLGETPOINTERINDEXEDVEXTPROC :: #type proc "c" (target: GLenum, index: GLuint, params: [^]rawptr)
@@ -8162,7 +8162,7 @@ PFNGLNAMEDPROGRAMLOCALPARAMETERI4UIVEXTPROC :: #type proc "c" (program: GLuint, 
 PFNGLNAMEDPROGRAMLOCALPARAMETERS4FVEXTPROC :: #type proc "c" (program: GLuint, target: GLenum, index: GLuint, count: GLsizei, params: [^]GLfloat)
 PFNGLNAMEDPROGRAMLOCALPARAMETERSI4IVEXTPROC :: #type proc "c" (program: GLuint, target: GLenum, index: GLuint, count: GLsizei, params: [^]GLint)
 PFNGLNAMEDPROGRAMLOCALPARAMETERSI4UIVEXTPROC :: #type proc "c" (program: GLuint, target: GLenum, index: GLuint, count: GLsizei, params: [^]GLuint)
-PFNGLNAMEDPROGRAMSTRINGEXTPROC :: #type proc "c" (program: GLuint, target: GLenum, format: GLenum, len: GLsizei, string_: rawptr)
+PFNGLNAMEDPROGRAMSTRINGEXTPROC :: #type proc "c" (program: GLuint, target: GLenum, format: GLenum, len: GLsizei, string_p: rawptr)
 PFNGLNAMEDRENDERBUFFERSTORAGEEXTPROC :: #type proc "c" (renderbuffer: GLuint, internalformat: GLenum, width: GLsizei, height: GLsizei)
 PFNGLNAMEDRENDERBUFFERSTORAGEMULTISAMPLECOVERAGEEXTPROC :: #type proc "c" (renderbuffer: GLuint, coverageSamples: GLsizei, colorSamples: GLsizei, internalformat: GLenum, width: GLsizei, height: GLsizei)
 PFNGLNAMEDRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC :: #type proc "c" (renderbuffer: GLuint, samples: GLsizei, internalformat: GLenum, width: GLsizei, height: GLsizei)
@@ -8452,7 +8452,7 @@ PFNGLIMPORTSEMAPHOREFDEXTPROC :: #type proc "c" (semaphore: GLuint, handleType: 
 PFNGLIMPORTSEMAPHOREWIN32HANDLEEXTPROC :: #type proc "c" (semaphore: GLuint, handleType: GLenum, handle: rawptr)
 PFNGLIMPORTSEMAPHOREWIN32NAMEEXTPROC :: #type proc "c" (semaphore: GLuint, handleType: GLenum, name: rawptr)
 PFNGLACTIVEPROGRAMEXTPROC :: #type proc "c" (program: GLuint)
-PFNGLCREATESHADERPROGRAMEXTPROC :: #type proc "c" (type: GLenum, string_: ^GLchar) -> GLuint
+PFNGLCREATESHADERPROGRAMEXTPROC :: #type proc "c" (type: GLenum, string_p: ^GLchar) -> GLuint
 PFNGLUSESHADERPROGRAMEXTPROC :: #type proc "c" (type: GLenum, program: GLuint)
 PFNGLFRAMEBUFFERFETCHBARRIEREXTPROC :: #type proc "c" ()
 PFNGLBINDIMAGETEXTUREEXTPROC :: #type proc "c" (index: GLuint, texture: GLuint, level: GLint, layered: GLboolean, layer: GLint, access: GLenum, format: GLint)
@@ -8558,7 +8558,7 @@ PFNGLSETLOCALCONSTANTEXTPROC :: #type proc "c" (id: GLuint, type: GLenum, addr: 
 PFNGLSHADEROP1EXTPROC :: #type proc "c" (op: GLenum, res: GLuint, arg1: GLuint)
 PFNGLSHADEROP2EXTPROC :: #type proc "c" (op: GLenum, res: GLuint, arg1: GLuint, arg2: GLuint)
 PFNGLSHADEROP3EXTPROC :: #type proc "c" (op: GLenum, res: GLuint, arg1: GLuint, arg2: GLuint, arg3: GLuint)
-PFNGLSWIZZLEEXTPROC :: #type proc "c" (res: GLuint, in_: GLuint, outX: GLenum, outY: GLenum, outZ: GLenum, outW: GLenum)
+PFNGLSWIZZLEEXTPROC :: #type proc "c" (res: GLuint, in_p: GLuint, outX: GLenum, outY: GLenum, outZ: GLenum, outW: GLenum)
 PFNGLVARIANTPOINTEREXTPROC :: #type proc "c" (id: GLuint, type: GLenum, stride: GLuint, addr: rawptr)
 PFNGLVARIANTBVEXTPROC :: #type proc "c" (id: GLuint, addr: ^GLbyte)
 PFNGLVARIANTDVEXTPROC :: #type proc "c" (id: GLuint, addr: ^GLdouble)
@@ -8568,7 +8568,7 @@ PFNGLVARIANTSVEXTPROC :: #type proc "c" (id: GLuint, addr: ^GLshort)
 PFNGLVARIANTUBVEXTPROC :: #type proc "c" (id: GLuint, addr: ^GLubyte)
 PFNGLVARIANTUIVEXTPROC :: #type proc "c" (id: GLuint, addr: ^GLuint)
 PFNGLVARIANTUSVEXTPROC :: #type proc "c" (id: GLuint, addr: ^GLushort)
-PFNGLWRITEMASKEXTPROC :: #type proc "c" (res: GLuint, in_: GLuint, outX: GLenum, outY: GLenum, outZ: GLenum, outW: GLenum)
+PFNGLWRITEMASKEXTPROC :: #type proc "c" (res: GLuint, in_p: GLuint, outX: GLenum, outY: GLenum, outZ: GLenum, outW: GLenum)
 PFNGLVERTEXWEIGHTPOINTEREXTPROC :: #type proc "c" (size: GLint, type: GLenum, stride: GLsizei, pointer: rawptr)
 PFNGLVERTEXWEIGHTFEXTPROC :: #type proc "c" (weight: GLfloat)
 PFNGLVERTEXWEIGHTFVEXTPROC :: #type proc "c" (weight: ^GLfloat)
@@ -8577,7 +8577,7 @@ PFNGLRELEASEKEYEDMUTEXWIN32EXTPROC :: #type proc "c" (memory: GLuint, key: GLuin
 PFNGLWINDOWRECTANGLESEXTPROC :: #type proc "c" (mode: GLenum, count: GLsizei, box: [^]GLint)
 PFNGLIMPORTSYNCEXTPROC :: #type proc "c" (external_sync_type: GLenum, external_sync: GLintptr, flags: GLbitfield) -> GLsync
 PFNGLFRAMETERMINATORGREMEDYPROC :: #type proc "c" ()
-PFNGLSTRINGMARKERGREMEDYPROC :: #type proc "c" (len: GLsizei, string_: rawptr)
+PFNGLSTRINGMARKERGREMEDYPROC :: #type proc "c" (len: GLsizei, string_p: rawptr)
 PFNGLGETIMAGETRANSFORMPARAMETERFVHPPROC :: #type proc "c" (target: GLenum, pname: GLenum, params: [^]GLfloat)
 PFNGLGETIMAGETRANSFORMPARAMETERIVHPPROC :: #type proc "c" (target: GLenum, pname: GLenum, params: [^]GLint)
 PFNGLIMAGETRANSFORMPARAMETERFHPPROC :: #type proc "c" (target: GLenum, pname: GLenum, param: GLfloat)
@@ -9135,7 +9135,7 @@ PFNGLPROGRAMPARAMETER4FVNVPROC :: #type proc "c" (target: GLenum, index: GLuint,
 PFNGLPROGRAMPARAMETERS4DVNVPROC :: #type proc "c" (target: GLenum, index: GLuint, num: GLsizei, params: [^]GLdouble)
 PFNGLPROGRAMPARAMETERS4FVNVPROC :: #type proc "c" (target: GLenum, index: GLuint, num: GLsizei, params: [^]GLfloat)
 PFNGLREQUESTRESIDENTPROGRAMSNVPROC :: #type proc "c" (n: GLsizei, ids: [^]GLuint)
-PFNGLTRACKMATRIXNVPROC :: #type proc "c" (target: GLenum, address: GLuint, matrix_: GLenum, transform: GLenum)
+PFNGLTRACKMATRIXNVPROC :: #type proc "c" (target: GLenum, address: GLuint, matrix_p: GLenum, transform: GLenum)
 PFNGLVERTEXATTRIB1DNVPROC :: #type proc "c" (index: GLuint, x: GLdouble)
 PFNGLVERTEXATTRIB1DVNVPROC :: #type proc "c" (index: GLuint, v: ^GLdouble)
 PFNGLVERTEXATTRIB1FNVPROC :: #type proc "c" (index: GLuint, x: GLfloat)
@@ -9355,7 +9355,7 @@ PFNGLTEXPARAMETERXVPROC :: #type proc "c" (target: GLenum, pname: GLenum, params
 PFNGLERRORSTRINGREGALPROC :: #type proc "c" (error: GLenum) -> ^GLchar
 PFNGLGETEXTENSIONREGALPROC :: #type proc "c" (ext: ^GLchar) -> GLboolean
 PFNGLISSUPPORTEDREGALPROC :: #type proc "c" (ext: ^GLchar) -> GLboolean
-GLLOGPROCREGAL :: #type proc "c" (stream: GLenum, length: GLsizei, message: ^GLchar, context_: rawptr)
+GLLOGPROCREGAL :: #type proc "c" (stream: GLenum, length: GLsizei, message: ^GLchar, context_p: rawptr)
 PFNGLLOGMESSAGECALLBACKREGALPROC :: #type proc "c" (callback: GLLOGPROCREGAL)
 PFNGLGETPROCADDRESSREGALPROC :: #type proc "c" (name: ^GLchar) -> rawptr
 PFNGLDETAILTEXFUNCSGISPROC :: #type proc "c" (target: GLenum, n: GLsizei, points: [^]GLfloat)
@@ -9512,10 +9512,1017 @@ PFNGLTEXCOORD4FCOLOR4FNORMAL3FVERTEX4FVSUNPROC :: #type proc "c" (tc: ^GLfloat, 
 PFNGLTEXCOORD4FVERTEX4FSUNPROC :: #type proc "c" (s: GLfloat, t: GLfloat, p: GLfloat, q: GLfloat, x: GLfloat, y: GLfloat, z: GLfloat, w: GLfloat)
 PFNGLTEXCOORD4FVERTEX4FVSUNPROC :: #type proc "c" (tc: ^GLfloat, v: ^GLfloat)
 PFNGLADDSWAPHINTRECTWINPROC :: #type proc "c" (x: GLint, y: GLint, width: GLsizei, height: GLsizei)
-ptrdiff_t :: i64
 
 @(default_calling_convention = "c")
 foreign gl_runic {
+    @(link_name = "glAccum")
+    Accum :: proc(op: GLenum, value: GLfloat) ---
+
+    @(link_name = "glAlphaFunc")
+    AlphaFunc :: proc(func: GLenum, ref: GLclampf) ---
+
+    @(link_name = "glAreTexturesResident")
+    AreTexturesResident :: proc(n: GLsizei, textures: [^]GLuint, residences: [^]GLboolean) -> GLboolean ---
+
+    @(link_name = "glArrayElement")
+    ArrayElement :: proc(i: GLint) ---
+
+    @(link_name = "glBegin")
+    Begin :: proc(mode: GLenum) ---
+
+    @(link_name = "glBindTexture")
+    BindTexture :: proc(target: GLenum, texture: GLuint) ---
+
+    @(link_name = "glBitmap")
+    Bitmap :: proc(width: GLsizei, height: GLsizei, xorig: GLfloat, yorig: GLfloat, xmove: GLfloat, ymove: GLfloat, bitmap: ^GLubyte) ---
+
+    @(link_name = "glBlendFunc")
+    BlendFunc :: proc(sfactor: GLenum, dfactor: GLenum) ---
+
+    @(link_name = "glCallList")
+    CallList :: proc(list: GLuint) ---
+
+    @(link_name = "glCallLists")
+    CallLists :: proc(n: GLsizei, type: GLenum, lists: rawptr) ---
+
+    @(link_name = "glClear")
+    Clear :: proc(mask: GLbitfield) ---
+
+    @(link_name = "glClearAccum")
+    ClearAccum :: proc(red: GLfloat, green: GLfloat, blue: GLfloat, alpha: GLfloat) ---
+
+    @(link_name = "glClearColor")
+    ClearColor :: proc(red: GLclampf, green: GLclampf, blue: GLclampf, alpha: GLclampf) ---
+
+    @(link_name = "glClearDepth")
+    ClearDepth :: proc(depth: GLclampd) ---
+
+    @(link_name = "glClearIndex")
+    ClearIndex :: proc(c: GLfloat) ---
+
+    @(link_name = "glClearStencil")
+    ClearStencil :: proc(s: GLint) ---
+
+    @(link_name = "glClipPlane")
+    ClipPlane :: proc(plane: GLenum, equation: ^GLdouble) ---
+
+    @(link_name = "glColor3b")
+    Color3b :: proc(red: GLbyte, green: GLbyte, blue: GLbyte) ---
+
+    @(link_name = "glColor3bv")
+    Color3bv :: proc(v: ^GLbyte) ---
+
+    @(link_name = "glColor3d")
+    Color3d :: proc(red: GLdouble, green: GLdouble, blue: GLdouble) ---
+
+    @(link_name = "glColor3dv")
+    Color3dv :: proc(v: ^GLdouble) ---
+
+    @(link_name = "glColor3f")
+    Color3f :: proc(red: GLfloat, green: GLfloat, blue: GLfloat) ---
+
+    @(link_name = "glColor3fv")
+    Color3fv :: proc(v: ^GLfloat) ---
+
+    @(link_name = "glColor3i")
+    Color3i :: proc(red: GLint, green: GLint, blue: GLint) ---
+
+    @(link_name = "glColor3iv")
+    Color3iv :: proc(v: ^GLint) ---
+
+    @(link_name = "glColor3s")
+    Color3s :: proc(red: GLshort, green: GLshort, blue: GLshort) ---
+
+    @(link_name = "glColor3sv")
+    Color3sv :: proc(v: ^GLshort) ---
+
+    @(link_name = "glColor3ub")
+    Color3ub :: proc(red: GLubyte, green: GLubyte, blue: GLubyte) ---
+
+    @(link_name = "glColor3ubv")
+    Color3ubv :: proc(v: ^GLubyte) ---
+
+    @(link_name = "glColor3ui")
+    Color3ui :: proc(red: GLuint, green: GLuint, blue: GLuint) ---
+
+    @(link_name = "glColor3uiv")
+    Color3uiv :: proc(v: ^GLuint) ---
+
+    @(link_name = "glColor3us")
+    Color3us :: proc(red: GLushort, green: GLushort, blue: GLushort) ---
+
+    @(link_name = "glColor3usv")
+    Color3usv :: proc(v: ^GLushort) ---
+
+    @(link_name = "glColor4b")
+    Color4b :: proc(red: GLbyte, green: GLbyte, blue: GLbyte, alpha: GLbyte) ---
+
+    @(link_name = "glColor4bv")
+    Color4bv :: proc(v: ^GLbyte) ---
+
+    @(link_name = "glColor4d")
+    Color4d :: proc(red: GLdouble, green: GLdouble, blue: GLdouble, alpha: GLdouble) ---
+
+    @(link_name = "glColor4dv")
+    Color4dv :: proc(v: ^GLdouble) ---
+
+    @(link_name = "glColor4f")
+    Color4f :: proc(red: GLfloat, green: GLfloat, blue: GLfloat, alpha: GLfloat) ---
+
+    @(link_name = "glColor4fv")
+    Color4fv :: proc(v: ^GLfloat) ---
+
+    @(link_name = "glColor4i")
+    Color4i :: proc(red: GLint, green: GLint, blue: GLint, alpha: GLint) ---
+
+    @(link_name = "glColor4iv")
+    Color4iv :: proc(v: ^GLint) ---
+
+    @(link_name = "glColor4s")
+    Color4s :: proc(red: GLshort, green: GLshort, blue: GLshort, alpha: GLshort) ---
+
+    @(link_name = "glColor4sv")
+    Color4sv :: proc(v: ^GLshort) ---
+
+    @(link_name = "glColor4ub")
+    Color4ub :: proc(red: GLubyte, green: GLubyte, blue: GLubyte, alpha: GLubyte) ---
+
+    @(link_name = "glColor4ubv")
+    Color4ubv :: proc(v: ^GLubyte) ---
+
+    @(link_name = "glColor4ui")
+    Color4ui :: proc(red: GLuint, green: GLuint, blue: GLuint, alpha: GLuint) ---
+
+    @(link_name = "glColor4uiv")
+    Color4uiv :: proc(v: ^GLuint) ---
+
+    @(link_name = "glColor4us")
+    Color4us :: proc(red: GLushort, green: GLushort, blue: GLushort, alpha: GLushort) ---
+
+    @(link_name = "glColor4usv")
+    Color4usv :: proc(v: ^GLushort) ---
+
+    @(link_name = "glColorMask")
+    ColorMask :: proc(red: GLboolean, green: GLboolean, blue: GLboolean, alpha: GLboolean) ---
+
+    @(link_name = "glColorMaterial")
+    ColorMaterial :: proc(face: GLenum, mode: GLenum) ---
+
+    @(link_name = "glColorPointer")
+    ColorPointer :: proc(size: GLint, type: GLenum, stride: GLsizei, pointer: rawptr) ---
+
+    @(link_name = "glCopyPixels")
+    CopyPixels :: proc(x: GLint, y: GLint, width: GLsizei, height: GLsizei, type: GLenum) ---
+
+    @(link_name = "glCopyTexImage1D")
+    CopyTexImage1D :: proc(target: GLenum, level: GLint, internalFormat: GLenum, x: GLint, y: GLint, width: GLsizei, border: GLint) ---
+
+    @(link_name = "glCopyTexImage2D")
+    CopyTexImage2D :: proc(target: GLenum, level: GLint, internalFormat: GLenum, x: GLint, y: GLint, width: GLsizei, height: GLsizei, border: GLint) ---
+
+    @(link_name = "glCopyTexSubImage1D")
+    CopyTexSubImage1D :: proc(target: GLenum, level: GLint, xoffset: GLint, x: GLint, y: GLint, width: GLsizei) ---
+
+    @(link_name = "glCopyTexSubImage2D")
+    CopyTexSubImage2D :: proc(target: GLenum, level: GLint, xoffset: GLint, yoffset: GLint, x: GLint, y: GLint, width: GLsizei, height: GLsizei) ---
+
+    @(link_name = "glCullFace")
+    CullFace :: proc(mode: GLenum) ---
+
+    @(link_name = "glDeleteLists")
+    DeleteLists :: proc(list: GLuint, range: GLsizei) ---
+
+    @(link_name = "glDeleteTextures")
+    DeleteTextures :: proc(n: GLsizei, textures: [^]GLuint) ---
+
+    @(link_name = "glDepthFunc")
+    DepthFunc :: proc(func: GLenum) ---
+
+    @(link_name = "glDepthMask")
+    DepthMask :: proc(flag: GLboolean) ---
+
+    @(link_name = "glDepthRange")
+    DepthRange :: proc(zNear: GLclampd, zFar: GLclampd) ---
+
+    @(link_name = "glDisable")
+    Disable :: proc(cap: GLenum) ---
+
+    @(link_name = "glDisableClientState")
+    DisableClientState :: proc(array: GLenum) ---
+
+    @(link_name = "glDrawArrays")
+    DrawArrays :: proc(mode: GLenum, first: GLint, count: GLsizei) ---
+
+    @(link_name = "glDrawBuffer")
+    DrawBuffer :: proc(mode: GLenum) ---
+
+    @(link_name = "glDrawElements")
+    DrawElements :: proc(mode: GLenum, count: GLsizei, type: GLenum, indices: rawptr) ---
+
+    @(link_name = "glDrawPixels")
+    DrawPixels :: proc(width: GLsizei, height: GLsizei, format: GLenum, type: GLenum, pixels: rawptr) ---
+
+    @(link_name = "glEdgeFlag")
+    EdgeFlag :: proc(flag: GLboolean) ---
+
+    @(link_name = "glEdgeFlagPointer")
+    EdgeFlagPointer :: proc(stride: GLsizei, pointer: rawptr) ---
+
+    @(link_name = "glEdgeFlagv")
+    EdgeFlagv :: proc(flag: ^GLboolean) ---
+
+    @(link_name = "glEnable")
+    Enable :: proc(cap: GLenum) ---
+
+    @(link_name = "glEnableClientState")
+    EnableClientState :: proc(array: GLenum) ---
+
+    @(link_name = "glEnd")
+    End :: proc() ---
+
+    @(link_name = "glEndList")
+    EndList :: proc() ---
+
+    @(link_name = "glEvalCoord1d")
+    EvalCoord1d :: proc(u: GLdouble) ---
+
+    @(link_name = "glEvalCoord1dv")
+    EvalCoord1dv :: proc(u: ^GLdouble) ---
+
+    @(link_name = "glEvalCoord1f")
+    EvalCoord1f :: proc(u: GLfloat) ---
+
+    @(link_name = "glEvalCoord1fv")
+    EvalCoord1fv :: proc(u: ^GLfloat) ---
+
+    @(link_name = "glEvalCoord2d")
+    EvalCoord2d :: proc(u: GLdouble, v: GLdouble) ---
+
+    @(link_name = "glEvalCoord2dv")
+    EvalCoord2dv :: proc(u: ^GLdouble) ---
+
+    @(link_name = "glEvalCoord2f")
+    EvalCoord2f :: proc(u: GLfloat, v: GLfloat) ---
+
+    @(link_name = "glEvalCoord2fv")
+    EvalCoord2fv :: proc(u: ^GLfloat) ---
+
+    @(link_name = "glEvalMesh1")
+    EvalMesh1 :: proc(mode: GLenum, i1: GLint, i2: GLint) ---
+
+    @(link_name = "glEvalMesh2")
+    EvalMesh2 :: proc(mode: GLenum, i1: GLint, i2: GLint, j1: GLint, j2: GLint) ---
+
+    @(link_name = "glEvalPoint1")
+    EvalPoint1 :: proc(i: GLint) ---
+
+    @(link_name = "glEvalPoint2")
+    EvalPoint2 :: proc(i: GLint, j: GLint) ---
+
+    @(link_name = "glFeedbackBuffer")
+    FeedbackBuffer :: proc(size: GLsizei, type: GLenum, buffer: ^GLfloat) ---
+
+    @(link_name = "glFinish")
+    Finish :: proc() ---
+
+    @(link_name = "glFlush")
+    Flush :: proc() ---
+
+    @(link_name = "glFogf")
+    Fogf :: proc(pname: GLenum, param: GLfloat) ---
+
+    @(link_name = "glFogfv")
+    Fogfv :: proc(pname: GLenum, params: [^]GLfloat) ---
+
+    @(link_name = "glFogi")
+    Fogi :: proc(pname: GLenum, param: GLint) ---
+
+    @(link_name = "glFogiv")
+    Fogiv :: proc(pname: GLenum, params: [^]GLint) ---
+
+    @(link_name = "glFrontFace")
+    FrontFace :: proc(mode: GLenum) ---
+
+    @(link_name = "glFrustum")
+    Frustum :: proc(left: GLdouble, right: GLdouble, bottom: GLdouble, top: GLdouble, zNear: GLdouble, zFar: GLdouble) ---
+
+    @(link_name = "glGenLists")
+    GenLists :: proc(range: GLsizei) -> GLuint ---
+
+    @(link_name = "glGenTextures")
+    GenTextures :: proc(n: GLsizei, textures: [^]GLuint) ---
+
+    @(link_name = "glGetBooleanv")
+    GetBooleanv :: proc(pname: GLenum, params: [^]GLboolean) ---
+
+    @(link_name = "glGetClipPlane")
+    GetClipPlane :: proc(plane: GLenum, equation: ^GLdouble) ---
+
+    @(link_name = "glGetDoublev")
+    GetDoublev :: proc(pname: GLenum, params: [^]GLdouble) ---
+
+    @(link_name = "glGetError")
+    GetError :: proc() -> GLenum ---
+
+    @(link_name = "glGetFloatv")
+    GetFloatv :: proc(pname: GLenum, params: [^]GLfloat) ---
+
+    @(link_name = "glGetIntegerv")
+    GetIntegerv :: proc(pname: GLenum, params: [^]GLint) ---
+
+    @(link_name = "glGetLightfv")
+    GetLightfv :: proc(light: GLenum, pname: GLenum, params: [^]GLfloat) ---
+
+    @(link_name = "glGetLightiv")
+    GetLightiv :: proc(light: GLenum, pname: GLenum, params: [^]GLint) ---
+
+    @(link_name = "glGetMapdv")
+    GetMapdv :: proc(target: GLenum, query: GLenum, v: ^GLdouble) ---
+
+    @(link_name = "glGetMapfv")
+    GetMapfv :: proc(target: GLenum, query: GLenum, v: ^GLfloat) ---
+
+    @(link_name = "glGetMapiv")
+    GetMapiv :: proc(target: GLenum, query: GLenum, v: ^GLint) ---
+
+    @(link_name = "glGetMaterialfv")
+    GetMaterialfv :: proc(face: GLenum, pname: GLenum, params: [^]GLfloat) ---
+
+    @(link_name = "glGetMaterialiv")
+    GetMaterialiv :: proc(face: GLenum, pname: GLenum, params: [^]GLint) ---
+
+    @(link_name = "glGetPixelMapfv")
+    GetPixelMapfv :: proc(map_p: GLenum, values: [^]GLfloat) ---
+
+    @(link_name = "glGetPixelMapuiv")
+    GetPixelMapuiv :: proc(map_p: GLenum, values: [^]GLuint) ---
+
+    @(link_name = "glGetPixelMapusv")
+    GetPixelMapusv :: proc(map_p: GLenum, values: [^]GLushort) ---
+
+    @(link_name = "glGetPointerv")
+    GetPointerv :: proc(pname: GLenum, params: [^]rawptr) ---
+
+    @(link_name = "glGetPolygonStipple")
+    GetPolygonStipple :: proc(mask: ^GLubyte) ---
+
+    @(link_name = "glGetString")
+    GetString :: proc(name: GLenum) -> ^GLubyte ---
+
+    @(link_name = "glGetTexEnvfv")
+    GetTexEnvfv :: proc(target: GLenum, pname: GLenum, params: [^]GLfloat) ---
+
+    @(link_name = "glGetTexEnviv")
+    GetTexEnviv :: proc(target: GLenum, pname: GLenum, params: [^]GLint) ---
+
+    @(link_name = "glGetTexGendv")
+    GetTexGendv :: proc(coord: GLenum, pname: GLenum, params: [^]GLdouble) ---
+
+    @(link_name = "glGetTexGenfv")
+    GetTexGenfv :: proc(coord: GLenum, pname: GLenum, params: [^]GLfloat) ---
+
+    @(link_name = "glGetTexGeniv")
+    GetTexGeniv :: proc(coord: GLenum, pname: GLenum, params: [^]GLint) ---
+
+    @(link_name = "glGetTexImage")
+    GetTexImage :: proc(target: GLenum, level: GLint, format: GLenum, type: GLenum, pixels: rawptr) ---
+
+    @(link_name = "glGetTexLevelParameterfv")
+    GetTexLevelParameterfv :: proc(target: GLenum, level: GLint, pname: GLenum, params: [^]GLfloat) ---
+
+    @(link_name = "glGetTexLevelParameteriv")
+    GetTexLevelParameteriv :: proc(target: GLenum, level: GLint, pname: GLenum, params: [^]GLint) ---
+
+    @(link_name = "glGetTexParameterfv")
+    GetTexParameterfv :: proc(target: GLenum, pname: GLenum, params: [^]GLfloat) ---
+
+    @(link_name = "glGetTexParameteriv")
+    GetTexParameteriv :: proc(target: GLenum, pname: GLenum, params: [^]GLint) ---
+
+    @(link_name = "glHint")
+    Hint :: proc(target: GLenum, mode: GLenum) ---
+
+    @(link_name = "glIndexMask")
+    IndexMask :: proc(mask: GLuint) ---
+
+    @(link_name = "glIndexPointer")
+    IndexPointer :: proc(type: GLenum, stride: GLsizei, pointer: rawptr) ---
+
+    @(link_name = "glIndexd")
+    Indexd :: proc(c: GLdouble) ---
+
+    @(link_name = "glIndexdv")
+    Indexdv :: proc(c: ^GLdouble) ---
+
+    @(link_name = "glIndexf")
+    Indexf :: proc(c: GLfloat) ---
+
+    @(link_name = "glIndexfv")
+    Indexfv :: proc(c: ^GLfloat) ---
+
+    @(link_name = "glIndexi")
+    Indexi :: proc(c: GLint) ---
+
+    @(link_name = "glIndexiv")
+    Indexiv :: proc(c: ^GLint) ---
+
+    @(link_name = "glIndexs")
+    Indexs :: proc(c: GLshort) ---
+
+    @(link_name = "glIndexsv")
+    Indexsv :: proc(c: ^GLshort) ---
+
+    @(link_name = "glIndexub")
+    Indexub :: proc(c: GLubyte) ---
+
+    @(link_name = "glIndexubv")
+    Indexubv :: proc(c: ^GLubyte) ---
+
+    @(link_name = "glInitNames")
+    InitNames :: proc() ---
+
+    @(link_name = "glInterleavedArrays")
+    InterleavedArrays :: proc(format: GLenum, stride: GLsizei, pointer: rawptr) ---
+
+    @(link_name = "glIsEnabled")
+    IsEnabled :: proc(cap: GLenum) -> GLboolean ---
+
+    @(link_name = "glIsList")
+    IsList :: proc(list: GLuint) -> GLboolean ---
+
+    @(link_name = "glIsTexture")
+    IsTexture :: proc(texture: GLuint) -> GLboolean ---
+
+    @(link_name = "glLightModelf")
+    LightModelf :: proc(pname: GLenum, param: GLfloat) ---
+
+    @(link_name = "glLightModelfv")
+    LightModelfv :: proc(pname: GLenum, params: [^]GLfloat) ---
+
+    @(link_name = "glLightModeli")
+    LightModeli :: proc(pname: GLenum, param: GLint) ---
+
+    @(link_name = "glLightModeliv")
+    LightModeliv :: proc(pname: GLenum, params: [^]GLint) ---
+
+    @(link_name = "glLightf")
+    Lightf :: proc(light: GLenum, pname: GLenum, param: GLfloat) ---
+
+    @(link_name = "glLightfv")
+    Lightfv :: proc(light: GLenum, pname: GLenum, params: [^]GLfloat) ---
+
+    @(link_name = "glLighti")
+    Lighti :: proc(light: GLenum, pname: GLenum, param: GLint) ---
+
+    @(link_name = "glLightiv")
+    Lightiv :: proc(light: GLenum, pname: GLenum, params: [^]GLint) ---
+
+    @(link_name = "glLineStipple")
+    LineStipple :: proc(factor: GLint, pattern: GLushort) ---
+
+    @(link_name = "glLineWidth")
+    LineWidth :: proc(width: GLfloat) ---
+
+    @(link_name = "glListBase")
+    ListBase :: proc(base: GLuint) ---
+
+    @(link_name = "glLoadIdentity")
+    LoadIdentity :: proc() ---
+
+    @(link_name = "glLoadMatrixd")
+    LoadMatrixd :: proc(m: ^GLdouble) ---
+
+    @(link_name = "glLoadMatrixf")
+    LoadMatrixf :: proc(m: ^GLfloat) ---
+
+    @(link_name = "glLoadName")
+    LoadName :: proc(name: GLuint) ---
+
+    @(link_name = "glLogicOp")
+    LogicOp :: proc(opcode: GLenum) ---
+
+    @(link_name = "glMap1d")
+    Map1d :: proc(target: GLenum, u1: GLdouble, u2: GLdouble, stride: GLint, order: GLint, points: [^]GLdouble) ---
+
+    @(link_name = "glMap1f")
+    Map1f :: proc(target: GLenum, u1: GLfloat, u2: GLfloat, stride: GLint, order: GLint, points: [^]GLfloat) ---
+
+    @(link_name = "glMap2d")
+    Map2d :: proc(target: GLenum, u1: GLdouble, u2: GLdouble, ustride: GLint, uorder: GLint, v1: GLdouble, v2: GLdouble, vstride: GLint, vorder: GLint, points: [^]GLdouble) ---
+
+    @(link_name = "glMap2f")
+    Map2f :: proc(target: GLenum, u1: GLfloat, u2: GLfloat, ustride: GLint, uorder: GLint, v1: GLfloat, v2: GLfloat, vstride: GLint, vorder: GLint, points: [^]GLfloat) ---
+
+    @(link_name = "glMapGrid1d")
+    MapGrid1d :: proc(un: GLint, u1: GLdouble, u2: GLdouble) ---
+
+    @(link_name = "glMapGrid1f")
+    MapGrid1f :: proc(un: GLint, u1: GLfloat, u2: GLfloat) ---
+
+    @(link_name = "glMapGrid2d")
+    MapGrid2d :: proc(un: GLint, u1: GLdouble, u2: GLdouble, vn: GLint, v1: GLdouble, v2: GLdouble) ---
+
+    @(link_name = "glMapGrid2f")
+    MapGrid2f :: proc(un: GLint, u1: GLfloat, u2: GLfloat, vn: GLint, v1: GLfloat, v2: GLfloat) ---
+
+    @(link_name = "glMaterialf")
+    Materialf :: proc(face: GLenum, pname: GLenum, param: GLfloat) ---
+
+    @(link_name = "glMaterialfv")
+    Materialfv :: proc(face: GLenum, pname: GLenum, params: [^]GLfloat) ---
+
+    @(link_name = "glMateriali")
+    Materiali :: proc(face: GLenum, pname: GLenum, param: GLint) ---
+
+    @(link_name = "glMaterialiv")
+    Materialiv :: proc(face: GLenum, pname: GLenum, params: [^]GLint) ---
+
+    @(link_name = "glMatrixMode")
+    MatrixMode :: proc(mode: GLenum) ---
+
+    @(link_name = "glMultMatrixd")
+    MultMatrixd :: proc(m: ^GLdouble) ---
+
+    @(link_name = "glMultMatrixf")
+    MultMatrixf :: proc(m: ^GLfloat) ---
+
+    @(link_name = "glNewList")
+    NewList :: proc(list: GLuint, mode: GLenum) ---
+
+    @(link_name = "glNormal3b")
+    Normal3b :: proc(nx: GLbyte, ny: GLbyte, nz: GLbyte) ---
+
+    @(link_name = "glNormal3bv")
+    Normal3bv :: proc(v: ^GLbyte) ---
+
+    @(link_name = "glNormal3d")
+    Normal3d :: proc(nx: GLdouble, ny: GLdouble, nz: GLdouble) ---
+
+    @(link_name = "glNormal3dv")
+    Normal3dv :: proc(v: ^GLdouble) ---
+
+    @(link_name = "glNormal3f")
+    Normal3f :: proc(nx: GLfloat, ny: GLfloat, nz: GLfloat) ---
+
+    @(link_name = "glNormal3fv")
+    Normal3fv :: proc(v: ^GLfloat) ---
+
+    @(link_name = "glNormal3i")
+    Normal3i :: proc(nx: GLint, ny: GLint, nz: GLint) ---
+
+    @(link_name = "glNormal3iv")
+    Normal3iv :: proc(v: ^GLint) ---
+
+    @(link_name = "glNormal3s")
+    Normal3s :: proc(nx: GLshort, ny: GLshort, nz: GLshort) ---
+
+    @(link_name = "glNormal3sv")
+    Normal3sv :: proc(v: ^GLshort) ---
+
+    @(link_name = "glNormalPointer")
+    NormalPointer :: proc(type: GLenum, stride: GLsizei, pointer: rawptr) ---
+
+    @(link_name = "glOrtho")
+    Ortho :: proc(left: GLdouble, right: GLdouble, bottom: GLdouble, top: GLdouble, zNear: GLdouble, zFar: GLdouble) ---
+
+    @(link_name = "glPassThrough")
+    PassThrough :: proc(token: GLfloat) ---
+
+    @(link_name = "glPixelMapfv")
+    PixelMapfv :: proc(map_p: GLenum, mapsize: GLsizei, values: [^]GLfloat) ---
+
+    @(link_name = "glPixelMapuiv")
+    PixelMapuiv :: proc(map_p: GLenum, mapsize: GLsizei, values: [^]GLuint) ---
+
+    @(link_name = "glPixelMapusv")
+    PixelMapusv :: proc(map_p: GLenum, mapsize: GLsizei, values: [^]GLushort) ---
+
+    @(link_name = "glPixelStoref")
+    PixelStoref :: proc(pname: GLenum, param: GLfloat) ---
+
+    @(link_name = "glPixelStorei")
+    PixelStorei :: proc(pname: GLenum, param: GLint) ---
+
+    @(link_name = "glPixelTransferf")
+    PixelTransferf :: proc(pname: GLenum, param: GLfloat) ---
+
+    @(link_name = "glPixelTransferi")
+    PixelTransferi :: proc(pname: GLenum, param: GLint) ---
+
+    @(link_name = "glPixelZoom")
+    PixelZoom :: proc(xfactor: GLfloat, yfactor: GLfloat) ---
+
+    @(link_name = "glPointSize")
+    PointSize :: proc(size: GLfloat) ---
+
+    @(link_name = "glPolygonMode")
+    PolygonMode :: proc(face: GLenum, mode: GLenum) ---
+
+    @(link_name = "glPolygonOffset")
+    PolygonOffset :: proc(factor: GLfloat, units: GLfloat) ---
+
+    @(link_name = "glPolygonStipple")
+    PolygonStipple :: proc(mask: ^GLubyte) ---
+
+    @(link_name = "glPopAttrib")
+    PopAttrib :: proc() ---
+
+    @(link_name = "glPopClientAttrib")
+    PopClientAttrib :: proc() ---
+
+    @(link_name = "glPopMatrix")
+    PopMatrix :: proc() ---
+
+    @(link_name = "glPopName")
+    PopName :: proc() ---
+
+    @(link_name = "glPrioritizeTextures")
+    PrioritizeTextures :: proc(n: GLsizei, textures: [^]GLuint, priorities: [^]GLclampf) ---
+
+    @(link_name = "glPushAttrib")
+    PushAttrib :: proc(mask: GLbitfield) ---
+
+    @(link_name = "glPushClientAttrib")
+    PushClientAttrib :: proc(mask: GLbitfield) ---
+
+    @(link_name = "glPushMatrix")
+    PushMatrix :: proc() ---
+
+    @(link_name = "glPushName")
+    PushName :: proc(name: GLuint) ---
+
+    @(link_name = "glRasterPos2d")
+    RasterPos2d :: proc(x: GLdouble, y: GLdouble) ---
+
+    @(link_name = "glRasterPos2dv")
+    RasterPos2dv :: proc(v: ^GLdouble) ---
+
+    @(link_name = "glRasterPos2f")
+    RasterPos2f :: proc(x: GLfloat, y: GLfloat) ---
+
+    @(link_name = "glRasterPos2fv")
+    RasterPos2fv :: proc(v: ^GLfloat) ---
+
+    @(link_name = "glRasterPos2i")
+    RasterPos2i :: proc(x: GLint, y: GLint) ---
+
+    @(link_name = "glRasterPos2iv")
+    RasterPos2iv :: proc(v: ^GLint) ---
+
+    @(link_name = "glRasterPos2s")
+    RasterPos2s :: proc(x: GLshort, y: GLshort) ---
+
+    @(link_name = "glRasterPos2sv")
+    RasterPos2sv :: proc(v: ^GLshort) ---
+
+    @(link_name = "glRasterPos3d")
+    RasterPos3d :: proc(x: GLdouble, y: GLdouble, z: GLdouble) ---
+
+    @(link_name = "glRasterPos3dv")
+    RasterPos3dv :: proc(v: ^GLdouble) ---
+
+    @(link_name = "glRasterPos3f")
+    RasterPos3f :: proc(x: GLfloat, y: GLfloat, z: GLfloat) ---
+
+    @(link_name = "glRasterPos3fv")
+    RasterPos3fv :: proc(v: ^GLfloat) ---
+
+    @(link_name = "glRasterPos3i")
+    RasterPos3i :: proc(x: GLint, y: GLint, z: GLint) ---
+
+    @(link_name = "glRasterPos3iv")
+    RasterPos3iv :: proc(v: ^GLint) ---
+
+    @(link_name = "glRasterPos3s")
+    RasterPos3s :: proc(x: GLshort, y: GLshort, z: GLshort) ---
+
+    @(link_name = "glRasterPos3sv")
+    RasterPos3sv :: proc(v: ^GLshort) ---
+
+    @(link_name = "glRasterPos4d")
+    RasterPos4d :: proc(x: GLdouble, y: GLdouble, z: GLdouble, w: GLdouble) ---
+
+    @(link_name = "glRasterPos4dv")
+    RasterPos4dv :: proc(v: ^GLdouble) ---
+
+    @(link_name = "glRasterPos4f")
+    RasterPos4f :: proc(x: GLfloat, y: GLfloat, z: GLfloat, w: GLfloat) ---
+
+    @(link_name = "glRasterPos4fv")
+    RasterPos4fv :: proc(v: ^GLfloat) ---
+
+    @(link_name = "glRasterPos4i")
+    RasterPos4i :: proc(x: GLint, y: GLint, z: GLint, w: GLint) ---
+
+    @(link_name = "glRasterPos4iv")
+    RasterPos4iv :: proc(v: ^GLint) ---
+
+    @(link_name = "glRasterPos4s")
+    RasterPos4s :: proc(x: GLshort, y: GLshort, z: GLshort, w: GLshort) ---
+
+    @(link_name = "glRasterPos4sv")
+    RasterPos4sv :: proc(v: ^GLshort) ---
+
+    @(link_name = "glReadBuffer")
+    ReadBuffer :: proc(mode: GLenum) ---
+
+    @(link_name = "glReadPixels")
+    ReadPixels :: proc(x: GLint, y: GLint, width: GLsizei, height: GLsizei, format: GLenum, type: GLenum, pixels: rawptr) ---
+
+    @(link_name = "glRectd")
+    Rectd :: proc(x1: GLdouble, y1: GLdouble, x2: GLdouble, y2: GLdouble) ---
+
+    @(link_name = "glRectdv")
+    Rectdv :: proc(v1: ^GLdouble, v2: ^GLdouble) ---
+
+    @(link_name = "glRectf")
+    Rectf :: proc(x1: GLfloat, y1: GLfloat, x2: GLfloat, y2: GLfloat) ---
+
+    @(link_name = "glRectfv")
+    Rectfv :: proc(v1: ^GLfloat, v2: ^GLfloat) ---
+
+    @(link_name = "glRecti")
+    Recti :: proc(x1: GLint, y1: GLint, x2: GLint, y2: GLint) ---
+
+    @(link_name = "glRectiv")
+    Rectiv :: proc(v1: ^GLint, v2: ^GLint) ---
+
+    @(link_name = "glRects")
+    Rects :: proc(x1: GLshort, y1: GLshort, x2: GLshort, y2: GLshort) ---
+
+    @(link_name = "glRectsv")
+    Rectsv :: proc(v1: ^GLshort, v2: ^GLshort) ---
+
+    @(link_name = "glRenderMode")
+    RenderMode :: proc(mode: GLenum) -> GLint ---
+
+    @(link_name = "glRotated")
+    Rotated :: proc(angle: GLdouble, x: GLdouble, y: GLdouble, z: GLdouble) ---
+
+    @(link_name = "glRotatef")
+    Rotatef :: proc(angle: GLfloat, x: GLfloat, y: GLfloat, z: GLfloat) ---
+
+    @(link_name = "glScaled")
+    Scaled :: proc(x: GLdouble, y: GLdouble, z: GLdouble) ---
+
+    @(link_name = "glScalef")
+    Scalef :: proc(x: GLfloat, y: GLfloat, z: GLfloat) ---
+
+    @(link_name = "glScissor")
+    Scissor :: proc(x: GLint, y: GLint, width: GLsizei, height: GLsizei) ---
+
+    @(link_name = "glSelectBuffer")
+    SelectBuffer :: proc(size: GLsizei, buffer: ^GLuint) ---
+
+    @(link_name = "glShadeModel")
+    ShadeModel :: proc(mode: GLenum) ---
+
+    @(link_name = "glStencilFunc")
+    StencilFunc :: proc(func: GLenum, ref: GLint, mask: GLuint) ---
+
+    @(link_name = "glStencilMask")
+    StencilMask :: proc(mask: GLuint) ---
+
+    @(link_name = "glStencilOp")
+    StencilOp :: proc(fail: GLenum, zfail: GLenum, zpass: GLenum) ---
+
+    @(link_name = "glTexCoord1d")
+    TexCoord1d :: proc(s: GLdouble) ---
+
+    @(link_name = "glTexCoord1dv")
+    TexCoord1dv :: proc(v: ^GLdouble) ---
+
+    @(link_name = "glTexCoord1f")
+    TexCoord1f :: proc(s: GLfloat) ---
+
+    @(link_name = "glTexCoord1fv")
+    TexCoord1fv :: proc(v: ^GLfloat) ---
+
+    @(link_name = "glTexCoord1i")
+    TexCoord1i :: proc(s: GLint) ---
+
+    @(link_name = "glTexCoord1iv")
+    TexCoord1iv :: proc(v: ^GLint) ---
+
+    @(link_name = "glTexCoord1s")
+    TexCoord1s :: proc(s: GLshort) ---
+
+    @(link_name = "glTexCoord1sv")
+    TexCoord1sv :: proc(v: ^GLshort) ---
+
+    @(link_name = "glTexCoord2d")
+    TexCoord2d :: proc(s: GLdouble, t: GLdouble) ---
+
+    @(link_name = "glTexCoord2dv")
+    TexCoord2dv :: proc(v: ^GLdouble) ---
+
+    @(link_name = "glTexCoord2f")
+    TexCoord2f :: proc(s: GLfloat, t: GLfloat) ---
+
+    @(link_name = "glTexCoord2fv")
+    TexCoord2fv :: proc(v: ^GLfloat) ---
+
+    @(link_name = "glTexCoord2i")
+    TexCoord2i :: proc(s: GLint, t: GLint) ---
+
+    @(link_name = "glTexCoord2iv")
+    TexCoord2iv :: proc(v: ^GLint) ---
+
+    @(link_name = "glTexCoord2s")
+    TexCoord2s :: proc(s: GLshort, t: GLshort) ---
+
+    @(link_name = "glTexCoord2sv")
+    TexCoord2sv :: proc(v: ^GLshort) ---
+
+    @(link_name = "glTexCoord3d")
+    TexCoord3d :: proc(s: GLdouble, t: GLdouble, r: GLdouble) ---
+
+    @(link_name = "glTexCoord3dv")
+    TexCoord3dv :: proc(v: ^GLdouble) ---
+
+    @(link_name = "glTexCoord3f")
+    TexCoord3f :: proc(s: GLfloat, t: GLfloat, r: GLfloat) ---
+
+    @(link_name = "glTexCoord3fv")
+    TexCoord3fv :: proc(v: ^GLfloat) ---
+
+    @(link_name = "glTexCoord3i")
+    TexCoord3i :: proc(s: GLint, t: GLint, r: GLint) ---
+
+    @(link_name = "glTexCoord3iv")
+    TexCoord3iv :: proc(v: ^GLint) ---
+
+    @(link_name = "glTexCoord3s")
+    TexCoord3s :: proc(s: GLshort, t: GLshort, r: GLshort) ---
+
+    @(link_name = "glTexCoord3sv")
+    TexCoord3sv :: proc(v: ^GLshort) ---
+
+    @(link_name = "glTexCoord4d")
+    TexCoord4d :: proc(s: GLdouble, t: GLdouble, r: GLdouble, q: GLdouble) ---
+
+    @(link_name = "glTexCoord4dv")
+    TexCoord4dv :: proc(v: ^GLdouble) ---
+
+    @(link_name = "glTexCoord4f")
+    TexCoord4f :: proc(s: GLfloat, t: GLfloat, r: GLfloat, q: GLfloat) ---
+
+    @(link_name = "glTexCoord4fv")
+    TexCoord4fv :: proc(v: ^GLfloat) ---
+
+    @(link_name = "glTexCoord4i")
+    TexCoord4i :: proc(s: GLint, t: GLint, r: GLint, q: GLint) ---
+
+    @(link_name = "glTexCoord4iv")
+    TexCoord4iv :: proc(v: ^GLint) ---
+
+    @(link_name = "glTexCoord4s")
+    TexCoord4s :: proc(s: GLshort, t: GLshort, r: GLshort, q: GLshort) ---
+
+    @(link_name = "glTexCoord4sv")
+    TexCoord4sv :: proc(v: ^GLshort) ---
+
+    @(link_name = "glTexCoordPointer")
+    TexCoordPointer :: proc(size: GLint, type: GLenum, stride: GLsizei, pointer: rawptr) ---
+
+    @(link_name = "glTexEnvf")
+    TexEnvf :: proc(target: GLenum, pname: GLenum, param: GLfloat) ---
+
+    @(link_name = "glTexEnvfv")
+    TexEnvfv :: proc(target: GLenum, pname: GLenum, params: [^]GLfloat) ---
+
+    @(link_name = "glTexEnvi")
+    TexEnvi :: proc(target: GLenum, pname: GLenum, param: GLint) ---
+
+    @(link_name = "glTexEnviv")
+    TexEnviv :: proc(target: GLenum, pname: GLenum, params: [^]GLint) ---
+
+    @(link_name = "glTexGend")
+    TexGend :: proc(coord: GLenum, pname: GLenum, param: GLdouble) ---
+
+    @(link_name = "glTexGendv")
+    TexGendv :: proc(coord: GLenum, pname: GLenum, params: [^]GLdouble) ---
+
+    @(link_name = "glTexGenf")
+    TexGenf :: proc(coord: GLenum, pname: GLenum, param: GLfloat) ---
+
+    @(link_name = "glTexGenfv")
+    TexGenfv :: proc(coord: GLenum, pname: GLenum, params: [^]GLfloat) ---
+
+    @(link_name = "glTexGeni")
+    TexGeni :: proc(coord: GLenum, pname: GLenum, param: GLint) ---
+
+    @(link_name = "glTexGeniv")
+    TexGeniv :: proc(coord: GLenum, pname: GLenum, params: [^]GLint) ---
+
+    @(link_name = "glTexImage1D")
+    TexImage1D :: proc(target: GLenum, level: GLint, internalformat: GLint, width: GLsizei, border: GLint, format: GLenum, type: GLenum, pixels: rawptr) ---
+
+    @(link_name = "glTexImage2D")
+    TexImage2D :: proc(target: GLenum, level: GLint, internalformat: GLint, width: GLsizei, height: GLsizei, border: GLint, format: GLenum, type: GLenum, pixels: rawptr) ---
+
+    @(link_name = "glTexParameterf")
+    TexParameterf :: proc(target: GLenum, pname: GLenum, param: GLfloat) ---
+
+    @(link_name = "glTexParameterfv")
+    TexParameterfv :: proc(target: GLenum, pname: GLenum, params: [^]GLfloat) ---
+
+    @(link_name = "glTexParameteri")
+    TexParameteri :: proc(target: GLenum, pname: GLenum, param: GLint) ---
+
+    @(link_name = "glTexParameteriv")
+    TexParameteriv :: proc(target: GLenum, pname: GLenum, params: [^]GLint) ---
+
+    @(link_name = "glTexSubImage1D")
+    TexSubImage1D :: proc(target: GLenum, level: GLint, xoffset: GLint, width: GLsizei, format: GLenum, type: GLenum, pixels: rawptr) ---
+
+    @(link_name = "glTexSubImage2D")
+    TexSubImage2D :: proc(target: GLenum, level: GLint, xoffset: GLint, yoffset: GLint, width: GLsizei, height: GLsizei, format: GLenum, type: GLenum, pixels: rawptr) ---
+
+    @(link_name = "glTranslated")
+    Translated :: proc(x: GLdouble, y: GLdouble, z: GLdouble) ---
+
+    @(link_name = "glTranslatef")
+    Translatef :: proc(x: GLfloat, y: GLfloat, z: GLfloat) ---
+
+    @(link_name = "glVertex2d")
+    Vertex2d :: proc(x: GLdouble, y: GLdouble) ---
+
+    @(link_name = "glVertex2dv")
+    Vertex2dv :: proc(v: ^GLdouble) ---
+
+    @(link_name = "glVertex2f")
+    Vertex2f :: proc(x: GLfloat, y: GLfloat) ---
+
+    @(link_name = "glVertex2fv")
+    Vertex2fv :: proc(v: ^GLfloat) ---
+
+    @(link_name = "glVertex2i")
+    Vertex2i :: proc(x: GLint, y: GLint) ---
+
+    @(link_name = "glVertex2iv")
+    Vertex2iv :: proc(v: ^GLint) ---
+
+    @(link_name = "glVertex2s")
+    Vertex2s :: proc(x: GLshort, y: GLshort) ---
+
+    @(link_name = "glVertex2sv")
+    Vertex2sv :: proc(v: ^GLshort) ---
+
+    @(link_name = "glVertex3d")
+    Vertex3d :: proc(x: GLdouble, y: GLdouble, z: GLdouble) ---
+
+    @(link_name = "glVertex3dv")
+    Vertex3dv :: proc(v: ^GLdouble) ---
+
+    @(link_name = "glVertex3f")
+    Vertex3f :: proc(x: GLfloat, y: GLfloat, z: GLfloat) ---
+
+    @(link_name = "glVertex3fv")
+    Vertex3fv :: proc(v: ^GLfloat) ---
+
+    @(link_name = "glVertex3i")
+    Vertex3i :: proc(x: GLint, y: GLint, z: GLint) ---
+
+    @(link_name = "glVertex3iv")
+    Vertex3iv :: proc(v: ^GLint) ---
+
+    @(link_name = "glVertex3s")
+    Vertex3s :: proc(x: GLshort, y: GLshort, z: GLshort) ---
+
+    @(link_name = "glVertex3sv")
+    Vertex3sv :: proc(v: ^GLshort) ---
+
+    @(link_name = "glVertex4d")
+    Vertex4d :: proc(x: GLdouble, y: GLdouble, z: GLdouble, w: GLdouble) ---
+
+    @(link_name = "glVertex4dv")
+    Vertex4dv :: proc(v: ^GLdouble) ---
+
+    @(link_name = "glVertex4f")
+    Vertex4f :: proc(x: GLfloat, y: GLfloat, z: GLfloat, w: GLfloat) ---
+
+    @(link_name = "glVertex4fv")
+    Vertex4fv :: proc(v: ^GLfloat) ---
+
+    @(link_name = "glVertex4i")
+    Vertex4i :: proc(x: GLint, y: GLint, z: GLint, w: GLint) ---
+
+    @(link_name = "glVertex4iv")
+    Vertex4iv :: proc(v: ^GLint) ---
+
+    @(link_name = "glVertex4s")
+    Vertex4s :: proc(x: GLshort, y: GLshort, z: GLshort, w: GLshort) ---
+
+    @(link_name = "glVertex4sv")
+    Vertex4sv :: proc(v: ^GLshort) ---
+
+    @(link_name = "glVertexPointer")
+    VertexPointer :: proc(size: GLint, type: GLenum, stride: GLsizei, pointer: rawptr) ---
+
+    @(link_name = "glViewport")
+    Viewport :: proc(x: GLint, y: GLint, width: GLsizei, height: GLsizei) ---
+
     @(link_name = "__glewCopyTexSubImage3D")
     __glewCopyTexSubImage3D: PFNGLCOPYTEXSUBIMAGE3DPROC
 
@@ -20709,1017 +21716,6 @@ foreign gl_runic {
     @(link_name = "__GLEW_WIN_swap_hint")
     __GLEW_WIN_swap_hint: GLboolean
 
-    @(link_name = "glewExperimental")
-    ewExperimental: GLboolean
-
-    @(link_name = "glAccum")
-    Accum :: proc(op: GLenum, value: GLfloat) ---
-
-    @(link_name = "glAlphaFunc")
-    AlphaFunc :: proc(func: GLenum, ref: GLclampf) ---
-
-    @(link_name = "glAreTexturesResident")
-    AreTexturesResident :: proc(n: GLsizei, textures: [^]GLuint, residences: [^]GLboolean) -> GLboolean ---
-
-    @(link_name = "glArrayElement")
-    ArrayElement :: proc(i: GLint) ---
-
-    @(link_name = "glBegin")
-    Begin :: proc(mode: GLenum) ---
-
-    @(link_name = "glBindTexture")
-    BindTexture :: proc(target: GLenum, texture: GLuint) ---
-
-    @(link_name = "glBitmap")
-    Bitmap :: proc(width: GLsizei, height: GLsizei, xorig: GLfloat, yorig: GLfloat, xmove: GLfloat, ymove: GLfloat, bitmap: ^GLubyte) ---
-
-    @(link_name = "glBlendFunc")
-    BlendFunc :: proc(sfactor: GLenum, dfactor: GLenum) ---
-
-    @(link_name = "glCallList")
-    CallList :: proc(list: GLuint) ---
-
-    @(link_name = "glCallLists")
-    CallLists :: proc(n: GLsizei, type: GLenum, lists: rawptr) ---
-
-    @(link_name = "glClear")
-    Clear :: proc(mask: GLbitfield) ---
-
-    @(link_name = "glClearAccum")
-    ClearAccum :: proc(red: GLfloat, green: GLfloat, blue: GLfloat, alpha: GLfloat) ---
-
-    @(link_name = "glClearColor")
-    ClearColor :: proc(red: GLclampf, green: GLclampf, blue: GLclampf, alpha: GLclampf) ---
-
-    @(link_name = "glClearDepth")
-    ClearDepth :: proc(depth: GLclampd) ---
-
-    @(link_name = "glClearIndex")
-    ClearIndex :: proc(c: GLfloat) ---
-
-    @(link_name = "glClearStencil")
-    ClearStencil :: proc(s: GLint) ---
-
-    @(link_name = "glClipPlane")
-    ClipPlane :: proc(plane: GLenum, equation: ^GLdouble) ---
-
-    @(link_name = "glColor3b")
-    Color3b :: proc(red: GLbyte, green: GLbyte, blue: GLbyte) ---
-
-    @(link_name = "glColor3bv")
-    Color3bv :: proc(v: ^GLbyte) ---
-
-    @(link_name = "glColor3d")
-    Color3d :: proc(red: GLdouble, green: GLdouble, blue: GLdouble) ---
-
-    @(link_name = "glColor3dv")
-    Color3dv :: proc(v: ^GLdouble) ---
-
-    @(link_name = "glColor3f")
-    Color3f :: proc(red: GLfloat, green: GLfloat, blue: GLfloat) ---
-
-    @(link_name = "glColor3fv")
-    Color3fv :: proc(v: ^GLfloat) ---
-
-    @(link_name = "glColor3i")
-    Color3i :: proc(red: GLint, green: GLint, blue: GLint) ---
-
-    @(link_name = "glColor3iv")
-    Color3iv :: proc(v: ^GLint) ---
-
-    @(link_name = "glColor3s")
-    Color3s :: proc(red: GLshort, green: GLshort, blue: GLshort) ---
-
-    @(link_name = "glColor3sv")
-    Color3sv :: proc(v: ^GLshort) ---
-
-    @(link_name = "glColor3ub")
-    Color3ub :: proc(red: GLubyte, green: GLubyte, blue: GLubyte) ---
-
-    @(link_name = "glColor3ubv")
-    Color3ubv :: proc(v: ^GLubyte) ---
-
-    @(link_name = "glColor3ui")
-    Color3ui :: proc(red: GLuint, green: GLuint, blue: GLuint) ---
-
-    @(link_name = "glColor3uiv")
-    Color3uiv :: proc(v: ^GLuint) ---
-
-    @(link_name = "glColor3us")
-    Color3us :: proc(red: GLushort, green: GLushort, blue: GLushort) ---
-
-    @(link_name = "glColor3usv")
-    Color3usv :: proc(v: ^GLushort) ---
-
-    @(link_name = "glColor4b")
-    Color4b :: proc(red: GLbyte, green: GLbyte, blue: GLbyte, alpha: GLbyte) ---
-
-    @(link_name = "glColor4bv")
-    Color4bv :: proc(v: ^GLbyte) ---
-
-    @(link_name = "glColor4d")
-    Color4d :: proc(red: GLdouble, green: GLdouble, blue: GLdouble, alpha: GLdouble) ---
-
-    @(link_name = "glColor4dv")
-    Color4dv :: proc(v: ^GLdouble) ---
-
-    @(link_name = "glColor4f")
-    Color4f :: proc(red: GLfloat, green: GLfloat, blue: GLfloat, alpha: GLfloat) ---
-
-    @(link_name = "glColor4fv")
-    Color4fv :: proc(v: ^GLfloat) ---
-
-    @(link_name = "glColor4i")
-    Color4i :: proc(red: GLint, green: GLint, blue: GLint, alpha: GLint) ---
-
-    @(link_name = "glColor4iv")
-    Color4iv :: proc(v: ^GLint) ---
-
-    @(link_name = "glColor4s")
-    Color4s :: proc(red: GLshort, green: GLshort, blue: GLshort, alpha: GLshort) ---
-
-    @(link_name = "glColor4sv")
-    Color4sv :: proc(v: ^GLshort) ---
-
-    @(link_name = "glColor4ub")
-    Color4ub :: proc(red: GLubyte, green: GLubyte, blue: GLubyte, alpha: GLubyte) ---
-
-    @(link_name = "glColor4ubv")
-    Color4ubv :: proc(v: ^GLubyte) ---
-
-    @(link_name = "glColor4ui")
-    Color4ui :: proc(red: GLuint, green: GLuint, blue: GLuint, alpha: GLuint) ---
-
-    @(link_name = "glColor4uiv")
-    Color4uiv :: proc(v: ^GLuint) ---
-
-    @(link_name = "glColor4us")
-    Color4us :: proc(red: GLushort, green: GLushort, blue: GLushort, alpha: GLushort) ---
-
-    @(link_name = "glColor4usv")
-    Color4usv :: proc(v: ^GLushort) ---
-
-    @(link_name = "glColorMask")
-    ColorMask :: proc(red: GLboolean, green: GLboolean, blue: GLboolean, alpha: GLboolean) ---
-
-    @(link_name = "glColorMaterial")
-    ColorMaterial :: proc(face: GLenum, mode: GLenum) ---
-
-    @(link_name = "glColorPointer")
-    ColorPointer :: proc(size: GLint, type: GLenum, stride: GLsizei, pointer: rawptr) ---
-
-    @(link_name = "glCopyPixels")
-    CopyPixels :: proc(x: GLint, y: GLint, width: GLsizei, height: GLsizei, type: GLenum) ---
-
-    @(link_name = "glCopyTexImage1D")
-    CopyTexImage1D :: proc(target: GLenum, level: GLint, internalFormat: GLenum, x: GLint, y: GLint, width: GLsizei, border: GLint) ---
-
-    @(link_name = "glCopyTexImage2D")
-    CopyTexImage2D :: proc(target: GLenum, level: GLint, internalFormat: GLenum, x: GLint, y: GLint, width: GLsizei, height: GLsizei, border: GLint) ---
-
-    @(link_name = "glCopyTexSubImage1D")
-    CopyTexSubImage1D :: proc(target: GLenum, level: GLint, xoffset: GLint, x: GLint, y: GLint, width: GLsizei) ---
-
-    @(link_name = "glCopyTexSubImage2D")
-    CopyTexSubImage2D :: proc(target: GLenum, level: GLint, xoffset: GLint, yoffset: GLint, x: GLint, y: GLint, width: GLsizei, height: GLsizei) ---
-
-    @(link_name = "glCullFace")
-    CullFace :: proc(mode: GLenum) ---
-
-    @(link_name = "glDeleteLists")
-    DeleteLists :: proc(list: GLuint, range: GLsizei) ---
-
-    @(link_name = "glDeleteTextures")
-    DeleteTextures :: proc(n: GLsizei, textures: [^]GLuint) ---
-
-    @(link_name = "glDepthFunc")
-    DepthFunc :: proc(func: GLenum) ---
-
-    @(link_name = "glDepthMask")
-    DepthMask :: proc(flag: GLboolean) ---
-
-    @(link_name = "glDepthRange")
-    DepthRange :: proc(zNear: GLclampd, zFar: GLclampd) ---
-
-    @(link_name = "glDisable")
-    Disable :: proc(cap: GLenum) ---
-
-    @(link_name = "glDisableClientState")
-    DisableClientState :: proc(array: GLenum) ---
-
-    @(link_name = "glDrawArrays")
-    DrawArrays :: proc(mode: GLenum, first: GLint, count: GLsizei) ---
-
-    @(link_name = "glDrawBuffer")
-    DrawBuffer :: proc(mode: GLenum) ---
-
-    @(link_name = "glDrawElements")
-    DrawElements :: proc(mode: GLenum, count: GLsizei, type: GLenum, indices: rawptr) ---
-
-    @(link_name = "glDrawPixels")
-    DrawPixels :: proc(width: GLsizei, height: GLsizei, format: GLenum, type: GLenum, pixels: rawptr) ---
-
-    @(link_name = "glEdgeFlag")
-    EdgeFlag :: proc(flag: GLboolean) ---
-
-    @(link_name = "glEdgeFlagPointer")
-    EdgeFlagPointer :: proc(stride: GLsizei, pointer: rawptr) ---
-
-    @(link_name = "glEdgeFlagv")
-    EdgeFlagv :: proc(flag: ^GLboolean) ---
-
-    @(link_name = "glEnable")
-    Enable :: proc(cap: GLenum) ---
-
-    @(link_name = "glEnableClientState")
-    EnableClientState :: proc(array: GLenum) ---
-
-    @(link_name = "glEnd")
-    End :: proc() ---
-
-    @(link_name = "glEndList")
-    EndList :: proc() ---
-
-    @(link_name = "glEvalCoord1d")
-    EvalCoord1d :: proc(u: GLdouble) ---
-
-    @(link_name = "glEvalCoord1dv")
-    EvalCoord1dv :: proc(u: ^GLdouble) ---
-
-    @(link_name = "glEvalCoord1f")
-    EvalCoord1f :: proc(u: GLfloat) ---
-
-    @(link_name = "glEvalCoord1fv")
-    EvalCoord1fv :: proc(u: ^GLfloat) ---
-
-    @(link_name = "glEvalCoord2d")
-    EvalCoord2d :: proc(u: GLdouble, v: GLdouble) ---
-
-    @(link_name = "glEvalCoord2dv")
-    EvalCoord2dv :: proc(u: ^GLdouble) ---
-
-    @(link_name = "glEvalCoord2f")
-    EvalCoord2f :: proc(u: GLfloat, v: GLfloat) ---
-
-    @(link_name = "glEvalCoord2fv")
-    EvalCoord2fv :: proc(u: ^GLfloat) ---
-
-    @(link_name = "glEvalMesh1")
-    EvalMesh1 :: proc(mode: GLenum, i1: GLint, i2: GLint) ---
-
-    @(link_name = "glEvalMesh2")
-    EvalMesh2 :: proc(mode: GLenum, i1: GLint, i2: GLint, j1: GLint, j2: GLint) ---
-
-    @(link_name = "glEvalPoint1")
-    EvalPoint1 :: proc(i: GLint) ---
-
-    @(link_name = "glEvalPoint2")
-    EvalPoint2 :: proc(i: GLint, j: GLint) ---
-
-    @(link_name = "glFeedbackBuffer")
-    FeedbackBuffer :: proc(size: GLsizei, type: GLenum, buffer: ^GLfloat) ---
-
-    @(link_name = "glFinish")
-    Finish :: proc() ---
-
-    @(link_name = "glFlush")
-    Flush :: proc() ---
-
-    @(link_name = "glFogf")
-    Fogf :: proc(pname: GLenum, param: GLfloat) ---
-
-    @(link_name = "glFogfv")
-    Fogfv :: proc(pname: GLenum, params: [^]GLfloat) ---
-
-    @(link_name = "glFogi")
-    Fogi :: proc(pname: GLenum, param: GLint) ---
-
-    @(link_name = "glFogiv")
-    Fogiv :: proc(pname: GLenum, params: [^]GLint) ---
-
-    @(link_name = "glFrontFace")
-    FrontFace :: proc(mode: GLenum) ---
-
-    @(link_name = "glFrustum")
-    Frustum :: proc(left: GLdouble, right: GLdouble, bottom: GLdouble, top: GLdouble, zNear: GLdouble, zFar: GLdouble) ---
-
-    @(link_name = "glGenLists")
-    GenLists :: proc(range: GLsizei) -> GLuint ---
-
-    @(link_name = "glGenTextures")
-    GenTextures :: proc(n: GLsizei, textures: [^]GLuint) ---
-
-    @(link_name = "glGetBooleanv")
-    GetBooleanv :: proc(pname: GLenum, params: [^]GLboolean) ---
-
-    @(link_name = "glGetClipPlane")
-    GetClipPlane :: proc(plane: GLenum, equation: ^GLdouble) ---
-
-    @(link_name = "glGetDoublev")
-    GetDoublev :: proc(pname: GLenum, params: [^]GLdouble) ---
-
-    @(link_name = "glGetError")
-    GetError :: proc() -> GLenum ---
-
-    @(link_name = "glGetFloatv")
-    GetFloatv :: proc(pname: GLenum, params: [^]GLfloat) ---
-
-    @(link_name = "glGetIntegerv")
-    GetIntegerv :: proc(pname: GLenum, params: [^]GLint) ---
-
-    @(link_name = "glGetLightfv")
-    GetLightfv :: proc(light: GLenum, pname: GLenum, params: [^]GLfloat) ---
-
-    @(link_name = "glGetLightiv")
-    GetLightiv :: proc(light: GLenum, pname: GLenum, params: [^]GLint) ---
-
-    @(link_name = "glGetMapdv")
-    GetMapdv :: proc(target: GLenum, query: GLenum, v: ^GLdouble) ---
-
-    @(link_name = "glGetMapfv")
-    GetMapfv :: proc(target: GLenum, query: GLenum, v: ^GLfloat) ---
-
-    @(link_name = "glGetMapiv")
-    GetMapiv :: proc(target: GLenum, query: GLenum, v: ^GLint) ---
-
-    @(link_name = "glGetMaterialfv")
-    GetMaterialfv :: proc(face: GLenum, pname: GLenum, params: [^]GLfloat) ---
-
-    @(link_name = "glGetMaterialiv")
-    GetMaterialiv :: proc(face: GLenum, pname: GLenum, params: [^]GLint) ---
-
-    @(link_name = "glGetPixelMapfv")
-    GetPixelMapfv :: proc(map_: GLenum, values: [^]GLfloat) ---
-
-    @(link_name = "glGetPixelMapuiv")
-    GetPixelMapuiv :: proc(map_: GLenum, values: [^]GLuint) ---
-
-    @(link_name = "glGetPixelMapusv")
-    GetPixelMapusv :: proc(map_: GLenum, values: [^]GLushort) ---
-
-    @(link_name = "glGetPointerv")
-    GetPointerv :: proc(pname: GLenum, params: [^]rawptr) ---
-
-    @(link_name = "glGetPolygonStipple")
-    GetPolygonStipple :: proc(mask: ^GLubyte) ---
-
-    @(link_name = "glGetString")
-    GetString :: proc(name: GLenum) -> ^GLubyte ---
-
-    @(link_name = "glGetTexEnvfv")
-    GetTexEnvfv :: proc(target: GLenum, pname: GLenum, params: [^]GLfloat) ---
-
-    @(link_name = "glGetTexEnviv")
-    GetTexEnviv :: proc(target: GLenum, pname: GLenum, params: [^]GLint) ---
-
-    @(link_name = "glGetTexGendv")
-    GetTexGendv :: proc(coord: GLenum, pname: GLenum, params: [^]GLdouble) ---
-
-    @(link_name = "glGetTexGenfv")
-    GetTexGenfv :: proc(coord: GLenum, pname: GLenum, params: [^]GLfloat) ---
-
-    @(link_name = "glGetTexGeniv")
-    GetTexGeniv :: proc(coord: GLenum, pname: GLenum, params: [^]GLint) ---
-
-    @(link_name = "glGetTexImage")
-    GetTexImage :: proc(target: GLenum, level: GLint, format: GLenum, type: GLenum, pixels: rawptr) ---
-
-    @(link_name = "glGetTexLevelParameterfv")
-    GetTexLevelParameterfv :: proc(target: GLenum, level: GLint, pname: GLenum, params: [^]GLfloat) ---
-
-    @(link_name = "glGetTexLevelParameteriv")
-    GetTexLevelParameteriv :: proc(target: GLenum, level: GLint, pname: GLenum, params: [^]GLint) ---
-
-    @(link_name = "glGetTexParameterfv")
-    GetTexParameterfv :: proc(target: GLenum, pname: GLenum, params: [^]GLfloat) ---
-
-    @(link_name = "glGetTexParameteriv")
-    GetTexParameteriv :: proc(target: GLenum, pname: GLenum, params: [^]GLint) ---
-
-    @(link_name = "glHint")
-    Hint :: proc(target: GLenum, mode: GLenum) ---
-
-    @(link_name = "glIndexMask")
-    IndexMask :: proc(mask: GLuint) ---
-
-    @(link_name = "glIndexPointer")
-    IndexPointer :: proc(type: GLenum, stride: GLsizei, pointer: rawptr) ---
-
-    @(link_name = "glIndexd")
-    Indexd :: proc(c: GLdouble) ---
-
-    @(link_name = "glIndexdv")
-    Indexdv :: proc(c: ^GLdouble) ---
-
-    @(link_name = "glIndexf")
-    Indexf :: proc(c: GLfloat) ---
-
-    @(link_name = "glIndexfv")
-    Indexfv :: proc(c: ^GLfloat) ---
-
-    @(link_name = "glIndexi")
-    Indexi :: proc(c: GLint) ---
-
-    @(link_name = "glIndexiv")
-    Indexiv :: proc(c: ^GLint) ---
-
-    @(link_name = "glIndexs")
-    Indexs :: proc(c: GLshort) ---
-
-    @(link_name = "glIndexsv")
-    Indexsv :: proc(c: ^GLshort) ---
-
-    @(link_name = "glIndexub")
-    Indexub :: proc(c: GLubyte) ---
-
-    @(link_name = "glIndexubv")
-    Indexubv :: proc(c: ^GLubyte) ---
-
-    @(link_name = "glInitNames")
-    InitNames :: proc() ---
-
-    @(link_name = "glInterleavedArrays")
-    InterleavedArrays :: proc(format: GLenum, stride: GLsizei, pointer: rawptr) ---
-
-    @(link_name = "glIsEnabled")
-    IsEnabled :: proc(cap: GLenum) -> GLboolean ---
-
-    @(link_name = "glIsList")
-    IsList :: proc(list: GLuint) -> GLboolean ---
-
-    @(link_name = "glIsTexture")
-    IsTexture :: proc(texture: GLuint) -> GLboolean ---
-
-    @(link_name = "glLightModelf")
-    LightModelf :: proc(pname: GLenum, param: GLfloat) ---
-
-    @(link_name = "glLightModelfv")
-    LightModelfv :: proc(pname: GLenum, params: [^]GLfloat) ---
-
-    @(link_name = "glLightModeli")
-    LightModeli :: proc(pname: GLenum, param: GLint) ---
-
-    @(link_name = "glLightModeliv")
-    LightModeliv :: proc(pname: GLenum, params: [^]GLint) ---
-
-    @(link_name = "glLightf")
-    Lightf :: proc(light: GLenum, pname: GLenum, param: GLfloat) ---
-
-    @(link_name = "glLightfv")
-    Lightfv :: proc(light: GLenum, pname: GLenum, params: [^]GLfloat) ---
-
-    @(link_name = "glLighti")
-    Lighti :: proc(light: GLenum, pname: GLenum, param: GLint) ---
-
-    @(link_name = "glLightiv")
-    Lightiv :: proc(light: GLenum, pname: GLenum, params: [^]GLint) ---
-
-    @(link_name = "glLineStipple")
-    LineStipple :: proc(factor: GLint, pattern: GLushort) ---
-
-    @(link_name = "glLineWidth")
-    LineWidth :: proc(width: GLfloat) ---
-
-    @(link_name = "glListBase")
-    ListBase :: proc(base: GLuint) ---
-
-    @(link_name = "glLoadIdentity")
-    LoadIdentity :: proc() ---
-
-    @(link_name = "glLoadMatrixd")
-    LoadMatrixd :: proc(m: ^GLdouble) ---
-
-    @(link_name = "glLoadMatrixf")
-    LoadMatrixf :: proc(m: ^GLfloat) ---
-
-    @(link_name = "glLoadName")
-    LoadName :: proc(name: GLuint) ---
-
-    @(link_name = "glLogicOp")
-    LogicOp :: proc(opcode: GLenum) ---
-
-    @(link_name = "glMap1d")
-    Map1d :: proc(target: GLenum, u1: GLdouble, u2: GLdouble, stride: GLint, order: GLint, points: [^]GLdouble) ---
-
-    @(link_name = "glMap1f")
-    Map1f :: proc(target: GLenum, u1: GLfloat, u2: GLfloat, stride: GLint, order: GLint, points: [^]GLfloat) ---
-
-    @(link_name = "glMap2d")
-    Map2d :: proc(target: GLenum, u1: GLdouble, u2: GLdouble, ustride: GLint, uorder: GLint, v1: GLdouble, v2: GLdouble, vstride: GLint, vorder: GLint, points: [^]GLdouble) ---
-
-    @(link_name = "glMap2f")
-    Map2f :: proc(target: GLenum, u1: GLfloat, u2: GLfloat, ustride: GLint, uorder: GLint, v1: GLfloat, v2: GLfloat, vstride: GLint, vorder: GLint, points: [^]GLfloat) ---
-
-    @(link_name = "glMapGrid1d")
-    MapGrid1d :: proc(un: GLint, u1: GLdouble, u2: GLdouble) ---
-
-    @(link_name = "glMapGrid1f")
-    MapGrid1f :: proc(un: GLint, u1: GLfloat, u2: GLfloat) ---
-
-    @(link_name = "glMapGrid2d")
-    MapGrid2d :: proc(un: GLint, u1: GLdouble, u2: GLdouble, vn: GLint, v1: GLdouble, v2: GLdouble) ---
-
-    @(link_name = "glMapGrid2f")
-    MapGrid2f :: proc(un: GLint, u1: GLfloat, u2: GLfloat, vn: GLint, v1: GLfloat, v2: GLfloat) ---
-
-    @(link_name = "glMaterialf")
-    Materialf :: proc(face: GLenum, pname: GLenum, param: GLfloat) ---
-
-    @(link_name = "glMaterialfv")
-    Materialfv :: proc(face: GLenum, pname: GLenum, params: [^]GLfloat) ---
-
-    @(link_name = "glMateriali")
-    Materiali :: proc(face: GLenum, pname: GLenum, param: GLint) ---
-
-    @(link_name = "glMaterialiv")
-    Materialiv :: proc(face: GLenum, pname: GLenum, params: [^]GLint) ---
-
-    @(link_name = "glMatrixMode")
-    MatrixMode :: proc(mode: GLenum) ---
-
-    @(link_name = "glMultMatrixd")
-    MultMatrixd :: proc(m: ^GLdouble) ---
-
-    @(link_name = "glMultMatrixf")
-    MultMatrixf :: proc(m: ^GLfloat) ---
-
-    @(link_name = "glNewList")
-    NewList :: proc(list: GLuint, mode: GLenum) ---
-
-    @(link_name = "glNormal3b")
-    Normal3b :: proc(nx: GLbyte, ny: GLbyte, nz: GLbyte) ---
-
-    @(link_name = "glNormal3bv")
-    Normal3bv :: proc(v: ^GLbyte) ---
-
-    @(link_name = "glNormal3d")
-    Normal3d :: proc(nx: GLdouble, ny: GLdouble, nz: GLdouble) ---
-
-    @(link_name = "glNormal3dv")
-    Normal3dv :: proc(v: ^GLdouble) ---
-
-    @(link_name = "glNormal3f")
-    Normal3f :: proc(nx: GLfloat, ny: GLfloat, nz: GLfloat) ---
-
-    @(link_name = "glNormal3fv")
-    Normal3fv :: proc(v: ^GLfloat) ---
-
-    @(link_name = "glNormal3i")
-    Normal3i :: proc(nx: GLint, ny: GLint, nz: GLint) ---
-
-    @(link_name = "glNormal3iv")
-    Normal3iv :: proc(v: ^GLint) ---
-
-    @(link_name = "glNormal3s")
-    Normal3s :: proc(nx: GLshort, ny: GLshort, nz: GLshort) ---
-
-    @(link_name = "glNormal3sv")
-    Normal3sv :: proc(v: ^GLshort) ---
-
-    @(link_name = "glNormalPointer")
-    NormalPointer :: proc(type: GLenum, stride: GLsizei, pointer: rawptr) ---
-
-    @(link_name = "glOrtho")
-    Ortho :: proc(left: GLdouble, right: GLdouble, bottom: GLdouble, top: GLdouble, zNear: GLdouble, zFar: GLdouble) ---
-
-    @(link_name = "glPassThrough")
-    PassThrough :: proc(token: GLfloat) ---
-
-    @(link_name = "glPixelMapfv")
-    PixelMapfv :: proc(map_: GLenum, mapsize: GLsizei, values: [^]GLfloat) ---
-
-    @(link_name = "glPixelMapuiv")
-    PixelMapuiv :: proc(map_: GLenum, mapsize: GLsizei, values: [^]GLuint) ---
-
-    @(link_name = "glPixelMapusv")
-    PixelMapusv :: proc(map_: GLenum, mapsize: GLsizei, values: [^]GLushort) ---
-
-    @(link_name = "glPixelStoref")
-    PixelStoref :: proc(pname: GLenum, param: GLfloat) ---
-
-    @(link_name = "glPixelStorei")
-    PixelStorei :: proc(pname: GLenum, param: GLint) ---
-
-    @(link_name = "glPixelTransferf")
-    PixelTransferf :: proc(pname: GLenum, param: GLfloat) ---
-
-    @(link_name = "glPixelTransferi")
-    PixelTransferi :: proc(pname: GLenum, param: GLint) ---
-
-    @(link_name = "glPixelZoom")
-    PixelZoom :: proc(xfactor: GLfloat, yfactor: GLfloat) ---
-
-    @(link_name = "glPointSize")
-    PointSize :: proc(size: GLfloat) ---
-
-    @(link_name = "glPolygonMode")
-    PolygonMode :: proc(face: GLenum, mode: GLenum) ---
-
-    @(link_name = "glPolygonOffset")
-    PolygonOffset :: proc(factor: GLfloat, units: GLfloat) ---
-
-    @(link_name = "glPolygonStipple")
-    PolygonStipple :: proc(mask: ^GLubyte) ---
-
-    @(link_name = "glPopAttrib")
-    PopAttrib :: proc() ---
-
-    @(link_name = "glPopClientAttrib")
-    PopClientAttrib :: proc() ---
-
-    @(link_name = "glPopMatrix")
-    PopMatrix :: proc() ---
-
-    @(link_name = "glPopName")
-    PopName :: proc() ---
-
-    @(link_name = "glPrioritizeTextures")
-    PrioritizeTextures :: proc(n: GLsizei, textures: [^]GLuint, priorities: [^]GLclampf) ---
-
-    @(link_name = "glPushAttrib")
-    PushAttrib :: proc(mask: GLbitfield) ---
-
-    @(link_name = "glPushClientAttrib")
-    PushClientAttrib :: proc(mask: GLbitfield) ---
-
-    @(link_name = "glPushMatrix")
-    PushMatrix :: proc() ---
-
-    @(link_name = "glPushName")
-    PushName :: proc(name: GLuint) ---
-
-    @(link_name = "glRasterPos2d")
-    RasterPos2d :: proc(x: GLdouble, y: GLdouble) ---
-
-    @(link_name = "glRasterPos2dv")
-    RasterPos2dv :: proc(v: ^GLdouble) ---
-
-    @(link_name = "glRasterPos2f")
-    RasterPos2f :: proc(x: GLfloat, y: GLfloat) ---
-
-    @(link_name = "glRasterPos2fv")
-    RasterPos2fv :: proc(v: ^GLfloat) ---
-
-    @(link_name = "glRasterPos2i")
-    RasterPos2i :: proc(x: GLint, y: GLint) ---
-
-    @(link_name = "glRasterPos2iv")
-    RasterPos2iv :: proc(v: ^GLint) ---
-
-    @(link_name = "glRasterPos2s")
-    RasterPos2s :: proc(x: GLshort, y: GLshort) ---
-
-    @(link_name = "glRasterPos2sv")
-    RasterPos2sv :: proc(v: ^GLshort) ---
-
-    @(link_name = "glRasterPos3d")
-    RasterPos3d :: proc(x: GLdouble, y: GLdouble, z: GLdouble) ---
-
-    @(link_name = "glRasterPos3dv")
-    RasterPos3dv :: proc(v: ^GLdouble) ---
-
-    @(link_name = "glRasterPos3f")
-    RasterPos3f :: proc(x: GLfloat, y: GLfloat, z: GLfloat) ---
-
-    @(link_name = "glRasterPos3fv")
-    RasterPos3fv :: proc(v: ^GLfloat) ---
-
-    @(link_name = "glRasterPos3i")
-    RasterPos3i :: proc(x: GLint, y: GLint, z: GLint) ---
-
-    @(link_name = "glRasterPos3iv")
-    RasterPos3iv :: proc(v: ^GLint) ---
-
-    @(link_name = "glRasterPos3s")
-    RasterPos3s :: proc(x: GLshort, y: GLshort, z: GLshort) ---
-
-    @(link_name = "glRasterPos3sv")
-    RasterPos3sv :: proc(v: ^GLshort) ---
-
-    @(link_name = "glRasterPos4d")
-    RasterPos4d :: proc(x: GLdouble, y: GLdouble, z: GLdouble, w: GLdouble) ---
-
-    @(link_name = "glRasterPos4dv")
-    RasterPos4dv :: proc(v: ^GLdouble) ---
-
-    @(link_name = "glRasterPos4f")
-    RasterPos4f :: proc(x: GLfloat, y: GLfloat, z: GLfloat, w: GLfloat) ---
-
-    @(link_name = "glRasterPos4fv")
-    RasterPos4fv :: proc(v: ^GLfloat) ---
-
-    @(link_name = "glRasterPos4i")
-    RasterPos4i :: proc(x: GLint, y: GLint, z: GLint, w: GLint) ---
-
-    @(link_name = "glRasterPos4iv")
-    RasterPos4iv :: proc(v: ^GLint) ---
-
-    @(link_name = "glRasterPos4s")
-    RasterPos4s :: proc(x: GLshort, y: GLshort, z: GLshort, w: GLshort) ---
-
-    @(link_name = "glRasterPos4sv")
-    RasterPos4sv :: proc(v: ^GLshort) ---
-
-    @(link_name = "glReadBuffer")
-    ReadBuffer :: proc(mode: GLenum) ---
-
-    @(link_name = "glReadPixels")
-    ReadPixels :: proc(x: GLint, y: GLint, width: GLsizei, height: GLsizei, format: GLenum, type: GLenum, pixels: rawptr) ---
-
-    @(link_name = "glRectd")
-    Rectd :: proc(x1: GLdouble, y1: GLdouble, x2: GLdouble, y2: GLdouble) ---
-
-    @(link_name = "glRectdv")
-    Rectdv :: proc(v1: ^GLdouble, v2: ^GLdouble) ---
-
-    @(link_name = "glRectf")
-    Rectf :: proc(x1: GLfloat, y1: GLfloat, x2: GLfloat, y2: GLfloat) ---
-
-    @(link_name = "glRectfv")
-    Rectfv :: proc(v1: ^GLfloat, v2: ^GLfloat) ---
-
-    @(link_name = "glRecti")
-    Recti :: proc(x1: GLint, y1: GLint, x2: GLint, y2: GLint) ---
-
-    @(link_name = "glRectiv")
-    Rectiv :: proc(v1: ^GLint, v2: ^GLint) ---
-
-    @(link_name = "glRects")
-    Rects :: proc(x1: GLshort, y1: GLshort, x2: GLshort, y2: GLshort) ---
-
-    @(link_name = "glRectsv")
-    Rectsv :: proc(v1: ^GLshort, v2: ^GLshort) ---
-
-    @(link_name = "glRenderMode")
-    RenderMode :: proc(mode: GLenum) -> GLint ---
-
-    @(link_name = "glRotated")
-    Rotated :: proc(angle: GLdouble, x: GLdouble, y: GLdouble, z: GLdouble) ---
-
-    @(link_name = "glRotatef")
-    Rotatef :: proc(angle: GLfloat, x: GLfloat, y: GLfloat, z: GLfloat) ---
-
-    @(link_name = "glScaled")
-    Scaled :: proc(x: GLdouble, y: GLdouble, z: GLdouble) ---
-
-    @(link_name = "glScalef")
-    Scalef :: proc(x: GLfloat, y: GLfloat, z: GLfloat) ---
-
-    @(link_name = "glScissor")
-    Scissor :: proc(x: GLint, y: GLint, width: GLsizei, height: GLsizei) ---
-
-    @(link_name = "glSelectBuffer")
-    SelectBuffer :: proc(size: GLsizei, buffer: ^GLuint) ---
-
-    @(link_name = "glShadeModel")
-    ShadeModel :: proc(mode: GLenum) ---
-
-    @(link_name = "glStencilFunc")
-    StencilFunc :: proc(func: GLenum, ref: GLint, mask: GLuint) ---
-
-    @(link_name = "glStencilMask")
-    StencilMask :: proc(mask: GLuint) ---
-
-    @(link_name = "glStencilOp")
-    StencilOp :: proc(fail: GLenum, zfail: GLenum, zpass: GLenum) ---
-
-    @(link_name = "glTexCoord1d")
-    TexCoord1d :: proc(s: GLdouble) ---
-
-    @(link_name = "glTexCoord1dv")
-    TexCoord1dv :: proc(v: ^GLdouble) ---
-
-    @(link_name = "glTexCoord1f")
-    TexCoord1f :: proc(s: GLfloat) ---
-
-    @(link_name = "glTexCoord1fv")
-    TexCoord1fv :: proc(v: ^GLfloat) ---
-
-    @(link_name = "glTexCoord1i")
-    TexCoord1i :: proc(s: GLint) ---
-
-    @(link_name = "glTexCoord1iv")
-    TexCoord1iv :: proc(v: ^GLint) ---
-
-    @(link_name = "glTexCoord1s")
-    TexCoord1s :: proc(s: GLshort) ---
-
-    @(link_name = "glTexCoord1sv")
-    TexCoord1sv :: proc(v: ^GLshort) ---
-
-    @(link_name = "glTexCoord2d")
-    TexCoord2d :: proc(s: GLdouble, t: GLdouble) ---
-
-    @(link_name = "glTexCoord2dv")
-    TexCoord2dv :: proc(v: ^GLdouble) ---
-
-    @(link_name = "glTexCoord2f")
-    TexCoord2f :: proc(s: GLfloat, t: GLfloat) ---
-
-    @(link_name = "glTexCoord2fv")
-    TexCoord2fv :: proc(v: ^GLfloat) ---
-
-    @(link_name = "glTexCoord2i")
-    TexCoord2i :: proc(s: GLint, t: GLint) ---
-
-    @(link_name = "glTexCoord2iv")
-    TexCoord2iv :: proc(v: ^GLint) ---
-
-    @(link_name = "glTexCoord2s")
-    TexCoord2s :: proc(s: GLshort, t: GLshort) ---
-
-    @(link_name = "glTexCoord2sv")
-    TexCoord2sv :: proc(v: ^GLshort) ---
-
-    @(link_name = "glTexCoord3d")
-    TexCoord3d :: proc(s: GLdouble, t: GLdouble, r: GLdouble) ---
-
-    @(link_name = "glTexCoord3dv")
-    TexCoord3dv :: proc(v: ^GLdouble) ---
-
-    @(link_name = "glTexCoord3f")
-    TexCoord3f :: proc(s: GLfloat, t: GLfloat, r: GLfloat) ---
-
-    @(link_name = "glTexCoord3fv")
-    TexCoord3fv :: proc(v: ^GLfloat) ---
-
-    @(link_name = "glTexCoord3i")
-    TexCoord3i :: proc(s: GLint, t: GLint, r: GLint) ---
-
-    @(link_name = "glTexCoord3iv")
-    TexCoord3iv :: proc(v: ^GLint) ---
-
-    @(link_name = "glTexCoord3s")
-    TexCoord3s :: proc(s: GLshort, t: GLshort, r: GLshort) ---
-
-    @(link_name = "glTexCoord3sv")
-    TexCoord3sv :: proc(v: ^GLshort) ---
-
-    @(link_name = "glTexCoord4d")
-    TexCoord4d :: proc(s: GLdouble, t: GLdouble, r: GLdouble, q: GLdouble) ---
-
-    @(link_name = "glTexCoord4dv")
-    TexCoord4dv :: proc(v: ^GLdouble) ---
-
-    @(link_name = "glTexCoord4f")
-    TexCoord4f :: proc(s: GLfloat, t: GLfloat, r: GLfloat, q: GLfloat) ---
-
-    @(link_name = "glTexCoord4fv")
-    TexCoord4fv :: proc(v: ^GLfloat) ---
-
-    @(link_name = "glTexCoord4i")
-    TexCoord4i :: proc(s: GLint, t: GLint, r: GLint, q: GLint) ---
-
-    @(link_name = "glTexCoord4iv")
-    TexCoord4iv :: proc(v: ^GLint) ---
-
-    @(link_name = "glTexCoord4s")
-    TexCoord4s :: proc(s: GLshort, t: GLshort, r: GLshort, q: GLshort) ---
-
-    @(link_name = "glTexCoord4sv")
-    TexCoord4sv :: proc(v: ^GLshort) ---
-
-    @(link_name = "glTexCoordPointer")
-    TexCoordPointer :: proc(size: GLint, type: GLenum, stride: GLsizei, pointer: rawptr) ---
-
-    @(link_name = "glTexEnvf")
-    TexEnvf :: proc(target: GLenum, pname: GLenum, param: GLfloat) ---
-
-    @(link_name = "glTexEnvfv")
-    TexEnvfv :: proc(target: GLenum, pname: GLenum, params: [^]GLfloat) ---
-
-    @(link_name = "glTexEnvi")
-    TexEnvi :: proc(target: GLenum, pname: GLenum, param: GLint) ---
-
-    @(link_name = "glTexEnviv")
-    TexEnviv :: proc(target: GLenum, pname: GLenum, params: [^]GLint) ---
-
-    @(link_name = "glTexGend")
-    TexGend :: proc(coord: GLenum, pname: GLenum, param: GLdouble) ---
-
-    @(link_name = "glTexGendv")
-    TexGendv :: proc(coord: GLenum, pname: GLenum, params: [^]GLdouble) ---
-
-    @(link_name = "glTexGenf")
-    TexGenf :: proc(coord: GLenum, pname: GLenum, param: GLfloat) ---
-
-    @(link_name = "glTexGenfv")
-    TexGenfv :: proc(coord: GLenum, pname: GLenum, params: [^]GLfloat) ---
-
-    @(link_name = "glTexGeni")
-    TexGeni :: proc(coord: GLenum, pname: GLenum, param: GLint) ---
-
-    @(link_name = "glTexGeniv")
-    TexGeniv :: proc(coord: GLenum, pname: GLenum, params: [^]GLint) ---
-
-    @(link_name = "glTexImage1D")
-    TexImage1D :: proc(target: GLenum, level: GLint, internalformat: GLint, width: GLsizei, border: GLint, format: GLenum, type: GLenum, pixels: rawptr) ---
-
-    @(link_name = "glTexImage2D")
-    TexImage2D :: proc(target: GLenum, level: GLint, internalformat: GLint, width: GLsizei, height: GLsizei, border: GLint, format: GLenum, type: GLenum, pixels: rawptr) ---
-
-    @(link_name = "glTexParameterf")
-    TexParameterf :: proc(target: GLenum, pname: GLenum, param: GLfloat) ---
-
-    @(link_name = "glTexParameterfv")
-    TexParameterfv :: proc(target: GLenum, pname: GLenum, params: [^]GLfloat) ---
-
-    @(link_name = "glTexParameteri")
-    TexParameteri :: proc(target: GLenum, pname: GLenum, param: GLint) ---
-
-    @(link_name = "glTexParameteriv")
-    TexParameteriv :: proc(target: GLenum, pname: GLenum, params: [^]GLint) ---
-
-    @(link_name = "glTexSubImage1D")
-    TexSubImage1D :: proc(target: GLenum, level: GLint, xoffset: GLint, width: GLsizei, format: GLenum, type: GLenum, pixels: rawptr) ---
-
-    @(link_name = "glTexSubImage2D")
-    TexSubImage2D :: proc(target: GLenum, level: GLint, xoffset: GLint, yoffset: GLint, width: GLsizei, height: GLsizei, format: GLenum, type: GLenum, pixels: rawptr) ---
-
-    @(link_name = "glTranslated")
-    Translated :: proc(x: GLdouble, y: GLdouble, z: GLdouble) ---
-
-    @(link_name = "glTranslatef")
-    Translatef :: proc(x: GLfloat, y: GLfloat, z: GLfloat) ---
-
-    @(link_name = "glVertex2d")
-    Vertex2d :: proc(x: GLdouble, y: GLdouble) ---
-
-    @(link_name = "glVertex2dv")
-    Vertex2dv :: proc(v: ^GLdouble) ---
-
-    @(link_name = "glVertex2f")
-    Vertex2f :: proc(x: GLfloat, y: GLfloat) ---
-
-    @(link_name = "glVertex2fv")
-    Vertex2fv :: proc(v: ^GLfloat) ---
-
-    @(link_name = "glVertex2i")
-    Vertex2i :: proc(x: GLint, y: GLint) ---
-
-    @(link_name = "glVertex2iv")
-    Vertex2iv :: proc(v: ^GLint) ---
-
-    @(link_name = "glVertex2s")
-    Vertex2s :: proc(x: GLshort, y: GLshort) ---
-
-    @(link_name = "glVertex2sv")
-    Vertex2sv :: proc(v: ^GLshort) ---
-
-    @(link_name = "glVertex3d")
-    Vertex3d :: proc(x: GLdouble, y: GLdouble, z: GLdouble) ---
-
-    @(link_name = "glVertex3dv")
-    Vertex3dv :: proc(v: ^GLdouble) ---
-
-    @(link_name = "glVertex3f")
-    Vertex3f :: proc(x: GLfloat, y: GLfloat, z: GLfloat) ---
-
-    @(link_name = "glVertex3fv")
-    Vertex3fv :: proc(v: ^GLfloat) ---
-
-    @(link_name = "glVertex3i")
-    Vertex3i :: proc(x: GLint, y: GLint, z: GLint) ---
-
-    @(link_name = "glVertex3iv")
-    Vertex3iv :: proc(v: ^GLint) ---
-
-    @(link_name = "glVertex3s")
-    Vertex3s :: proc(x: GLshort, y: GLshort, z: GLshort) ---
-
-    @(link_name = "glVertex3sv")
-    Vertex3sv :: proc(v: ^GLshort) ---
-
-    @(link_name = "glVertex4d")
-    Vertex4d :: proc(x: GLdouble, y: GLdouble, z: GLdouble, w: GLdouble) ---
-
-    @(link_name = "glVertex4dv")
-    Vertex4dv :: proc(v: ^GLdouble) ---
-
-    @(link_name = "glVertex4f")
-    Vertex4f :: proc(x: GLfloat, y: GLfloat, z: GLfloat, w: GLfloat) ---
-
-    @(link_name = "glVertex4fv")
-    Vertex4fv :: proc(v: ^GLfloat) ---
-
-    @(link_name = "glVertex4i")
-    Vertex4i :: proc(x: GLint, y: GLint, z: GLint, w: GLint) ---
-
-    @(link_name = "glVertex4iv")
-    Vertex4iv :: proc(v: ^GLint) ---
-
-    @(link_name = "glVertex4s")
-    Vertex4s :: proc(x: GLshort, y: GLshort, z: GLshort, w: GLshort) ---
-
-    @(link_name = "glVertex4sv")
-    Vertex4sv :: proc(v: ^GLshort) ---
-
-    @(link_name = "glVertexPointer")
-    VertexPointer :: proc(size: GLint, type: GLenum, stride: GLsizei, pointer: rawptr) ---
-
-    @(link_name = "glViewport")
-    Viewport :: proc(x: GLint, y: GLint, width: GLsizei, height: GLsizei) ---
-
     @(link_name = "glewInit")
     ewInit :: proc() -> GLenum ---
 
@@ -21728,6 +21724,9 @@ foreign gl_runic {
 
     @(link_name = "glewIsSupported")
     ewIsSupported :: proc(name: cstring) -> GLboolean ---
+
+    @(link_name = "glewExperimental")
+    ewExperimental: GLboolean
 
     @(link_name = "glewGetExtension")
     ewGetExtension :: proc(name: cstring) -> GLboolean ---
@@ -22328,8 +22327,8 @@ LinkProgram :: #force_inline proc "contextless" (program: GLuint) {
     __glewLinkProgram(program)
 }
 
-ShaderSource :: #force_inline proc "contextless" (shader: GLuint, count: GLsizei, string_: ^^GLchar, length: ^GLint) {
-    __glewShaderSource(shader, count, string_, length)
+ShaderSource :: #force_inline proc "contextless" (shader: GLuint, count: GLsizei, string_p: ^^GLchar, length: ^GLint) {
+    __glewShaderSource(shader, count, string_p, length)
 }
 
 StencilFuncSeparate :: #force_inline proc "contextless" (face: GLenum, func: GLenum, ref: GLint, mask: GLuint) {
@@ -23208,12 +23207,12 @@ ObjectUnpurgeableAPPLE :: #force_inline proc "contextless" (objectType: GLenum, 
     return __glewObjectUnpurgeableAPPLE(objectType, name, option)
 }
 
-ClientWaitSyncAPPLE :: #force_inline proc "contextless" (GLsync: GLsync, flags: GLbitfield, timeout: GLuint64) -> GLenum {
-    return __glewClientWaitSyncAPPLE(GLsync, flags, timeout)
+ClientWaitSyncAPPLE :: #force_inline proc "contextless" (GLsync_p: GLsync, flags: GLbitfield, timeout: GLuint64) -> GLenum {
+    return __glewClientWaitSyncAPPLE(GLsync_p, flags, timeout)
 }
 
-DeleteSyncAPPLE :: #force_inline proc "contextless" (GLsync: GLsync) {
-    __glewDeleteSyncAPPLE(GLsync)
+DeleteSyncAPPLE :: #force_inline proc "contextless" (GLsync_p: GLsync) {
+    __glewDeleteSyncAPPLE(GLsync_p)
 }
 
 FenceSyncAPPLE :: #force_inline proc "contextless" (condition: GLenum, flags: GLbitfield) -> GLsync {
@@ -23224,16 +23223,16 @@ GetInteger64vAPPLE :: #force_inline proc "contextless" (pname: GLenum, params: [
     __glewGetInteger64vAPPLE(pname, params)
 }
 
-GetSyncivAPPLE :: #force_inline proc "contextless" (GLsync: GLsync, pname: GLenum, bufSize: GLsizei, length: ^GLsizei, values: [^]GLint) {
-    __glewGetSyncivAPPLE(GLsync, pname, bufSize, length, values)
+GetSyncivAPPLE :: #force_inline proc "contextless" (GLsync_p: GLsync, pname: GLenum, bufSize: GLsizei, length: ^GLsizei, values: [^]GLint) {
+    __glewGetSyncivAPPLE(GLsync_p, pname, bufSize, length, values)
 }
 
-IsSyncAPPLE :: #force_inline proc "contextless" (GLsync: GLsync) -> GLboolean {
-    return __glewIsSyncAPPLE(GLsync)
+IsSyncAPPLE :: #force_inline proc "contextless" (GLsync_p: GLsync) -> GLboolean {
+    return __glewIsSyncAPPLE(GLsync_p)
 }
 
-WaitSyncAPPLE :: #force_inline proc "contextless" (GLsync: GLsync, flags: GLbitfield, timeout: GLuint64) {
-    __glewWaitSyncAPPLE(GLsync, flags, timeout)
+WaitSyncAPPLE :: #force_inline proc "contextless" (GLsync_p: GLsync, flags: GLbitfield, timeout: GLuint64) {
+    __glewWaitSyncAPPLE(GLsync_p, flags, timeout)
 }
 
 GetTexParameterPointervAPPLE :: #force_inline proc "contextless" (target: GLenum, pname: GLenum, params: [^]rawptr) {
@@ -23416,8 +23415,8 @@ BufferStorage :: #force_inline proc "contextless" (target: GLenum, size: GLsizei
     __glewBufferStorage(target, size, data, flags)
 }
 
-CreateSyncFromCLeventARB :: #force_inline proc "contextless" (context_: cl_context, event: cl_event, flags: GLbitfield) -> GLsync {
-    return __glewCreateSyncFromCLeventARB(context_, event, flags)
+CreateSyncFromCLeventARB :: #force_inline proc "contextless" (context_p: cl_context, event: cl_event, flags: GLbitfield) -> GLsync {
+    return __glewCreateSyncFromCLeventARB(context_p, event, flags)
 }
 
 ClearBufferData :: #force_inline proc "contextless" (target: GLenum, internalformat: GLenum, format: GLenum, type: GLenum, data: rawptr) {
@@ -24764,16 +24763,16 @@ GetnMinmaxARB :: #force_inline proc "contextless" (target: GLenum, reset: GLbool
     __glewGetnMinmaxARB(target, reset, format, type, bufSize, values)
 }
 
-GetnPixelMapfvARB :: #force_inline proc "contextless" (map_: GLenum, bufSize: GLsizei, values: [^]GLfloat) {
-    __glewGetnPixelMapfvARB(map_, bufSize, values)
+GetnPixelMapfvARB :: #force_inline proc "contextless" (map_p: GLenum, bufSize: GLsizei, values: [^]GLfloat) {
+    __glewGetnPixelMapfvARB(map_p, bufSize, values)
 }
 
-GetnPixelMapuivARB :: #force_inline proc "contextless" (map_: GLenum, bufSize: GLsizei, values: [^]GLuint) {
-    __glewGetnPixelMapuivARB(map_, bufSize, values)
+GetnPixelMapuivARB :: #force_inline proc "contextless" (map_p: GLenum, bufSize: GLsizei, values: [^]GLuint) {
+    __glewGetnPixelMapuivARB(map_p, bufSize, values)
 }
 
-GetnPixelMapusvARB :: #force_inline proc "contextless" (map_: GLenum, bufSize: GLsizei, values: [^]GLushort) {
-    __glewGetnPixelMapusvARB(map_, bufSize, values)
+GetnPixelMapusvARB :: #force_inline proc "contextless" (map_p: GLenum, bufSize: GLsizei, values: [^]GLushort) {
+    __glewGetnPixelMapusvARB(map_p, bufSize, values)
 }
 
 GetnPolygonStippleARB :: #force_inline proc "contextless" (bufSize: GLsizei, pattern: ^GLubyte) {
@@ -25200,8 +25199,8 @@ LinkProgramARB :: #force_inline proc "contextless" (programObj: GLhandleARB) {
     __glewLinkProgramARB(programObj)
 }
 
-ShaderSourceARB :: #force_inline proc "contextless" (shaderObj: GLhandleARB, count: GLsizei, string_: ^^GLcharARB, length: ^GLint) {
-    __glewShaderSourceARB(shaderObj, count, string_, length)
+ShaderSourceARB :: #force_inline proc "contextless" (shaderObj: GLhandleARB, count: GLsizei, string_p: ^^GLcharARB, length: ^GLint) {
+    __glewShaderSourceARB(shaderObj, count, string_p, length)
 }
 
 Uniform1fARB :: #force_inline proc "contextless" (location: GLint, v0: GLfloat) {
@@ -25332,8 +25331,8 @@ DeleteNamedStringARB :: #force_inline proc "contextless" (namelen: GLint, name: 
     __glewDeleteNamedStringARB(namelen, name)
 }
 
-GetNamedStringARB :: #force_inline proc "contextless" (namelen: GLint, name: ^GLchar, bufSize: GLsizei, stringlen: ^GLint, string_: ^GLchar) {
-    __glewGetNamedStringARB(namelen, name, bufSize, stringlen, string_)
+GetNamedStringARB :: #force_inline proc "contextless" (namelen: GLint, name: ^GLchar, bufSize: GLsizei, stringlen: ^GLint, string_p: ^GLchar) {
+    __glewGetNamedStringARB(namelen, name, bufSize, stringlen, string_p)
 }
 
 GetNamedStringivARB :: #force_inline proc "contextless" (namelen: GLint, name: ^GLchar, pname: GLenum, params: [^]GLint) {
@@ -25344,8 +25343,8 @@ IsNamedStringARB :: #force_inline proc "contextless" (namelen: GLint, name: ^GLc
     return __glewIsNamedStringARB(namelen, name)
 }
 
-NamedStringARB :: #force_inline proc "contextless" (type: GLenum, namelen: GLint, name: ^GLchar, stringlen: GLint, string_: ^GLchar) {
-    __glewNamedStringARB(type, namelen, name, stringlen, string_)
+NamedStringARB :: #force_inline proc "contextless" (type: GLenum, namelen: GLint, name: ^GLchar, stringlen: GLint, string_p: ^GLchar) {
+    __glewNamedStringARB(type, namelen, name, stringlen, string_p)
 }
 
 BufferPageCommitmentARB :: #force_inline proc "contextless" (target: GLenum, offset: GLintptr, size: GLsizeiptr, commit: GLboolean) {
@@ -25356,12 +25355,12 @@ TexPageCommitmentARB :: #force_inline proc "contextless" (target: GLenum, level:
     __glewTexPageCommitmentARB(target, level, xoffset, yoffset, zoffset, width, height, depth, commit)
 }
 
-ClientWaitSync :: #force_inline proc "contextless" (GLsync: GLsync, flags: GLbitfield, timeout: GLuint64) -> GLenum {
-    return __glewClientWaitSync(GLsync, flags, timeout)
+ClientWaitSync :: #force_inline proc "contextless" (GLsync_p: GLsync, flags: GLbitfield, timeout: GLuint64) -> GLenum {
+    return __glewClientWaitSync(GLsync_p, flags, timeout)
 }
 
-DeleteSync :: #force_inline proc "contextless" (GLsync: GLsync) {
-    __glewDeleteSync(GLsync)
+DeleteSync :: #force_inline proc "contextless" (GLsync_p: GLsync) {
+    __glewDeleteSync(GLsync_p)
 }
 
 FenceSync :: #force_inline proc "contextless" (condition: GLenum, flags: GLbitfield) -> GLsync {
@@ -25372,16 +25371,16 @@ GetInteger64v :: #force_inline proc "contextless" (pname: GLenum, params: [^]GLi
     __glewGetInteger64v(pname, params)
 }
 
-GetSynciv :: #force_inline proc "contextless" (GLsync: GLsync, pname: GLenum, bufSize: GLsizei, length: ^GLsizei, values: [^]GLint) {
-    __glewGetSynciv(GLsync, pname, bufSize, length, values)
+GetSynciv :: #force_inline proc "contextless" (GLsync_p: GLsync, pname: GLenum, bufSize: GLsizei, length: ^GLsizei, values: [^]GLint) {
+    __glewGetSynciv(GLsync_p, pname, bufSize, length, values)
 }
 
-IsSync :: #force_inline proc "contextless" (GLsync: GLsync) -> GLboolean {
-    return __glewIsSync(GLsync)
+IsSync :: #force_inline proc "contextless" (GLsync_p: GLsync) -> GLboolean {
+    return __glewIsSync(GLsync_p)
 }
 
-WaitSync :: #force_inline proc "contextless" (GLsync: GLsync, flags: GLbitfield, timeout: GLuint64) {
-    __glewWaitSync(GLsync, flags, timeout)
+WaitSync :: #force_inline proc "contextless" (GLsync_p: GLsync, flags: GLbitfield, timeout: GLuint64) {
+    __glewWaitSync(GLsync_p, flags, timeout)
 }
 
 PatchParameterfv :: #force_inline proc "contextless" (pname: GLenum, values: [^]GLfloat) {
@@ -25828,8 +25827,8 @@ GetProgramLocalParameterfvARB :: #force_inline proc "contextless" (target: GLenu
     __glewGetProgramLocalParameterfvARB(target, index, params)
 }
 
-GetProgramStringARB :: #force_inline proc "contextless" (target: GLenum, pname: GLenum, string_: rawptr) {
-    __glewGetProgramStringARB(target, pname, string_)
+GetProgramStringARB :: #force_inline proc "contextless" (target: GLenum, pname: GLenum, string_p: rawptr) {
+    __glewGetProgramStringARB(target, pname, string_p)
 }
 
 GetProgramivARB :: #force_inline proc "contextless" (target: GLenum, pname: GLenum, params: [^]GLint) {
@@ -25888,8 +25887,8 @@ ProgramLocalParameter4fvARB :: #force_inline proc "contextless" (target: GLenum,
     __glewProgramLocalParameter4fvARB(target, index, params)
 }
 
-ProgramStringARB :: #force_inline proc "contextless" (target: GLenum, format: GLenum, len: GLsizei, string_: rawptr) {
-    __glewProgramStringARB(target, format, len, string_)
+ProgramStringARB :: #force_inline proc "contextless" (target: GLenum, format: GLenum, len: GLsizei, string_p: rawptr) {
+    __glewProgramStringARB(target, format, len, string_p)
 }
 
 VertexAttrib1dARB :: #force_inline proc "contextless" (index: GLuint, x: GLdouble) {
@@ -27140,8 +27139,8 @@ GetNamedProgramLocalParameterfvEXT :: #force_inline proc "contextless" (program:
     __glewGetNamedProgramLocalParameterfvEXT(program, target, index, params)
 }
 
-GetNamedProgramStringEXT :: #force_inline proc "contextless" (program: GLuint, target: GLenum, pname: GLenum, string_: rawptr) {
-    __glewGetNamedProgramStringEXT(program, target, pname, string_)
+GetNamedProgramStringEXT :: #force_inline proc "contextless" (program: GLuint, target: GLenum, pname: GLenum, string_p: rawptr) {
+    __glewGetNamedProgramStringEXT(program, target, pname, string_p)
 }
 
 GetNamedProgramivEXT :: #force_inline proc "contextless" (program: GLuint, target: GLenum, pname: GLenum, params: [^]GLint) {
@@ -27472,8 +27471,8 @@ NamedProgramLocalParametersI4uivEXT :: #force_inline proc "contextless" (program
     __glewNamedProgramLocalParametersI4uivEXT(program, target, index, count, params)
 }
 
-NamedProgramStringEXT :: #force_inline proc "contextless" (program: GLuint, target: GLenum, format: GLenum, len: GLsizei, string_: rawptr) {
-    __glewNamedProgramStringEXT(program, target, format, len, string_)
+NamedProgramStringEXT :: #force_inline proc "contextless" (program: GLuint, target: GLenum, format: GLenum, len: GLsizei, string_p: rawptr) {
+    __glewNamedProgramStringEXT(program, target, format, len, string_p)
 }
 
 NamedRenderbufferStorageEXT :: #force_inline proc "contextless" (renderbuffer: GLuint, internalformat: GLenum, width: GLsizei, height: GLsizei) {
@@ -28628,8 +28627,8 @@ ActiveProgramEXT :: #force_inline proc "contextless" (program: GLuint) {
     __glewActiveProgramEXT(program)
 }
 
-CreateShaderProgramEXT :: #force_inline proc "contextless" (type: GLenum, string_: ^GLchar) -> GLuint {
-    return __glewCreateShaderProgramEXT(type, string_)
+CreateShaderProgramEXT :: #force_inline proc "contextless" (type: GLenum, string_p: ^GLchar) -> GLuint {
+    return __glewCreateShaderProgramEXT(type, string_p)
 }
 
 UseShaderProgramEXT :: #force_inline proc "contextless" (type: GLenum, program: GLuint) {
@@ -29052,8 +29051,8 @@ ShaderOp3EXT :: #force_inline proc "contextless" (op: GLenum, res: GLuint, arg1:
     __glewShaderOp3EXT(op, res, arg1, arg2, arg3)
 }
 
-SwizzleEXT :: #force_inline proc "contextless" (res: GLuint, in_: GLuint, outX: GLenum, outY: GLenum, outZ: GLenum, outW: GLenum) {
-    __glewSwizzleEXT(res, in_, outX, outY, outZ, outW)
+SwizzleEXT :: #force_inline proc "contextless" (res: GLuint, in_p: GLuint, outX: GLenum, outY: GLenum, outZ: GLenum, outW: GLenum) {
+    __glewSwizzleEXT(res, in_p, outX, outY, outZ, outW)
 }
 
 VariantPointerEXT :: #force_inline proc "contextless" (id: GLuint, type: GLenum, stride: GLuint, addr: rawptr) {
@@ -29092,8 +29091,8 @@ VariantusvEXT :: #force_inline proc "contextless" (id: GLuint, addr: ^GLushort) 
     __glewVariantusvEXT(id, addr)
 }
 
-WriteMaskEXT :: #force_inline proc "contextless" (res: GLuint, in_: GLuint, outX: GLenum, outY: GLenum, outZ: GLenum, outW: GLenum) {
-    __glewWriteMaskEXT(res, in_, outX, outY, outZ, outW)
+WriteMaskEXT :: #force_inline proc "contextless" (res: GLuint, in_p: GLuint, outX: GLenum, outY: GLenum, outZ: GLenum, outW: GLenum) {
+    __glewWriteMaskEXT(res, in_p, outX, outY, outZ, outW)
 }
 
 VertexWeightPointerEXT :: #force_inline proc "contextless" (size: GLint, type: GLenum, stride: GLsizei, pointer: rawptr) {
@@ -29128,8 +29127,8 @@ FrameTerminatorGREMEDY :: #force_inline proc "contextless" () {
     __glewFrameTerminatorGREMEDY()
 }
 
-StringMarkerGREMEDY :: #force_inline proc "contextless" (len: GLsizei, string_: rawptr) {
-    __glewStringMarkerGREMEDY(len, string_)
+StringMarkerGREMEDY :: #force_inline proc "contextless" (len: GLsizei, string_p: rawptr) {
+    __glewStringMarkerGREMEDY(len, string_p)
 }
 
 GetImageTransformParameterfvHP :: #force_inline proc "contextless" (target: GLenum, pname: GLenum, params: [^]GLfloat) {
@@ -31344,8 +31343,8 @@ RequestResidentProgramsNV :: #force_inline proc "contextless" (n: GLsizei, ids: 
     __glewRequestResidentProgramsNV(n, ids)
 }
 
-TrackMatrixNV :: #force_inline proc "contextless" (target: GLenum, address: GLuint, matrix_: GLenum, transform: GLenum) {
-    __glewTrackMatrixNV(target, address, matrix_, transform)
+TrackMatrixNV :: #force_inline proc "contextless" (target: GLenum, address: GLuint, matrix_p: GLenum, transform: GLenum) {
+    __glewTrackMatrixNV(target, address, matrix_p, transform)
 }
 
 VertexAttrib1dNV :: #force_inline proc "contextless" (index: GLuint, x: GLdouble) {

@@ -22,6 +22,7 @@ from:
     GLEW_BUILD: 1
     'GLEW_GET_VAR(x)': x
     GLEW_NO_GLU: 1
+    _PTRDIFF_T_DEFINED: 1
   includedirs: "build/include"
   ignore:
     macros:
@@ -38,6 +39,14 @@ from:
     types:
       - "GLvoid"
       - "GLulong"
+      - "wchar_t"
+      - "__GLsync"
+      - "_cl_context"
+      - "_cl_event"
+  overwrite:
+    types:
+      "GLchar": "#SInt8"
+      "GLcharARB": "GLchar"
 to:
   language: odin
   package: gl
